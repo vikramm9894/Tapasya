@@ -69,6 +69,24 @@
           </div>
         </div>
 
+        <!-- Quick Access: Exam Mode & Boss Battle -->
+        <div style="display: flex; gap: 8px; margin: 12px 0 16px;">
+          <div class="quick-pill" id="openChallengesTodayBtn" style="flex: 1; background: var(--bg-card); border: 1px solid rgba(255, 61, 0, 0.4); padding: 10px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 20px;">👹</span>
+            <div style="flex: 1;">
+              <div style="font-size: 12px; font-weight: bold; color: var(--text-primary);">Boss Battle</div>
+              <div style="font-size: 10px; color: var(--orange-flame);" id="todayBossSub"><span id="todayBossHpText">6</span> HP Remaining</div>
+            </div>
+          </div>
+          <div class="quick-pill" id="openExamTodayBtn" style="flex: 1; background: var(--bg-card); border: 1px solid rgba(0, 229, 255, 0.4); padding: 10px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 20px;">🎯</span>
+            <div style="flex: 1;">
+              <div style="font-size: 12px; font-weight: bold; color: var(--text-primary);">Exam Velocity</div>
+              <div style="font-size: 10px; color: var(--cyan-primary);" id="todayExamSub">14d • <span id="todayExamVel">1.4</span>/day</div>
+            </div>
+          </div>
+        </div>
+
         <!-- 3 Non-Negotiables Section -->
         <div class="section-header">
           <div class="section-title-wrap">
@@ -311,21 +329,31 @@
           </div>
         </div>
 
+        <!-- Mini Challenges & Exam Velocity Action Cards -->
+        <div style="display: flex; gap: 10px; margin: 16px 0;">
+          <div class="quick-pill" id="openChallengesMeBtn" style="flex: 1; background: var(--bg-card); border: 1px solid rgba(255, 61, 0, 0.5); padding: 12px; border-radius: 14px; cursor: pointer;">
+            <div style="font-size: 9px; font-weight: 800; letter-spacing: 1px; color: var(--orange-flame);">⚔️ BOSS BATTLE</div>
+            <div style="font-size: 14px; font-weight: 900; margin: 3px 0;">Weekly Titan</div>
+            <div style="font-size: 11px; color: var(--text-secondary);"><span id="meBossHpText">6</span> HP Left • Sprints</div>
+          </div>
+          <div class="quick-pill" id="openExamMeBtn" style="flex: 1; background: var(--bg-card); border: 1px solid rgba(0, 229, 255, 0.5); padding: 12px; border-radius: 14px; cursor: pointer;">
+            <div style="font-size: 9px; font-weight: 800; letter-spacing: 1px; color: var(--cyan-primary);">🎯 EXAM MODE</div>
+            <div style="font-size: 14px; font-weight: 900; margin: 3px 0;">Velocity Gauge</div>
+            <div style="font-size: 11px; color: var(--text-secondary);">14 Days • <span id="meExamVel">1.4</span>/day</div>
+          </div>
+        </div>
+
         <div class="settings-box mt-4">
+          <div class="settings-item clickable" id="openSettingsModalBtn">
+            <span>⚙️ Settings & Privacy Preferences</span>
+            <span class="chevron">›</span>
+          </div>
           <div class="settings-item clickable" id="openOnboardingBtn">
             <span>🚀 Run 4-Step Onboarding Wizard</span>
             <span class="chevron">›</span>
           </div>
-          <div class="settings-item">
-            <span>Biometric App Lock</span>
-            <span class="badge-pill active">Enabled</span>
-          </div>
-          <div class="settings-item">
-            <span>Planned Rest Day</span>
-            <span class="badge-pill">Sunday</span>
-          </div>
-          <div class="settings-item clickable" onclick="alert('Database exported successfully as JSON dump.')">
-            <span>Export Offline Backup (JSON)</span>
+          <div class="settings-item clickable" id="exportBackupDirectBtn">
+            <span>💾 Export Offline Backup (JSON)</span>
             <span class="chevron">›</span>
           </div>
         </div>
@@ -575,6 +603,175 @@
           <div style="background: var(--bg-surface); border: 1px solid var(--border-color); padding: 12px; border-radius: 10px; font-size: 12px;">
             <div style="color: var(--cyan-primary); margin-bottom: 4px;">Sleep: 7.5h • Mood: 4/5 • Focus: 5/5</div>
             <div style="color: var(--text-secondary); font-style: italic;">"Completed tree traversals without looking at solutions. Strong day!"</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Exam Mode Velocity Modal -->
+    <div class="modal-backdrop" id="examModal">
+      <div class="modal-sheet" style="max-height: 85vh; overflow-y: auto;">
+        <div class="modal-handle"></div>
+        <div class="modal-header">
+          <div>
+            <h3>🎯 Exam Mode Velocity</h3>
+            <span style="font-size: 11px; color: var(--cyan-primary);">Computer Science (GATE / Placement)</span>
+          </div>
+          <button class="close-btn" id="closeExamBtn">✕</button>
+        </div>
+        <div class="modal-body">
+          <div style="background: linear-gradient(135deg, #1E1E28, #14141B); border: 1px solid var(--cyan-primary); padding: 16px; border-radius: 14px; margin-bottom: 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <span style="font-size: 10px; font-weight: 800; letter-spacing: 1.5px; color: var(--cyan-primary);">TARGET COUNTDOWN</span>
+                <div style="font-size: 24px; font-weight: 900; color: #fff;">14 Days Left</div>
+              </div>
+              <span class="badge-pill" id="examStatusBadge" style="background: rgba(0,229,255,0.15); color: var(--cyan-primary); font-weight: bold;">On Track</span>
+            </div>
+            <div style="margin: 12px 0 8px; background: var(--border-color); height: 8px; border-radius: 4px; overflow: hidden;">
+              <div id="examProgressBar" style="width: 40%; height: 100%; background: var(--cyan-primary); transition: width 0.3s;"></div>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--text-secondary);">
+              <span id="examProgressCount">2 of 5 topics completed</span>
+              <strong style="color: var(--cyan-primary); font-size: 12px;"><span id="examVelocityRate">1.4</span> topics/day required</strong>
+            </div>
+          </div>
+
+          <div style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: var(--text-secondary); margin-bottom: 8px;">SYLLABUS TOPICS:</div>
+          <div id="examTopicsList" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px;">
+            <!-- Dynamically populated in app.js -->
+          </div>
+
+          <div class="input-group" style="display: flex; gap: 8px;">
+            <input type="text" id="newTopicInput" placeholder="Add syllabus topic (e.g. Dijkstra Shortest Path)" style="flex: 1;">
+            <button class="btn btn-cyan btn-sm" id="addNewTopicBtn">+ Add</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Challenges & Boss Battles Modal -->
+    <div class="modal-backdrop" id="challengesModal">
+      <div class="modal-sheet" style="max-height: 85vh; overflow-y: auto;">
+        <div class="modal-handle"></div>
+        <div class="modal-header">
+          <div>
+            <h3>⚔️ Challenges & Boss Battles</h3>
+            <span style="font-size: 11px; color: var(--orange-flame);">Weekly Titans & Mini-Sprints</span>
+          </div>
+          <button class="close-btn" id="closeChallengesBtn">✕</button>
+        </div>
+        <div class="modal-body">
+          <!-- Boss Battle Card -->
+          <div style="background: linear-gradient(135deg, #2A1520, #16161E); border: 1.5px solid var(--orange-flame); padding: 16px; border-radius: 16px; margin-bottom: 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 28px;" id="bossEmoji">👹</span>
+                <div>
+                  <span style="font-size: 10px; font-weight: 800; letter-spacing: 1.5px; color: var(--orange-flame);">WEEKLY BOSS</span>
+                  <div style="font-size: 16px; font-weight: 900;" id="bossNameTitle">Procrastination Titan</div>
+                </div>
+              </div>
+              <span class="badge-pill" id="bossHpBadge" style="background: var(--bg-card); color: var(--orange-flame); font-weight: bold;">6 / 15 HP</span>
+            </div>
+            <div style="margin: 12px 0 8px; background: var(--border-color); height: 10px; border-radius: 5px; overflow: hidden;">
+              <div id="bossHpBar" style="width: 40%; height: 100%; background: var(--orange-flame); transition: width 0.3s;"></div>
+            </div>
+            <p style="font-size: 11px; color: var(--text-secondary); margin-bottom: 12px;">
+              Every completed habit this week strikes the Titan for 1 HP damage! Defeat him by Sunday midnight.
+            </p>
+            <button class="btn btn-primary btn-block" id="attackBossBtn" style="background: var(--orange-flame); color: #fff;">
+              ⚡ Sync Habit Hits (Attack Titan)
+            </button>
+          </div>
+
+          <!-- Active Sprints -->
+          <div style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: var(--text-secondary); margin-bottom: 8px;">ACTIVE SPRINTS:</div>
+          
+          <div style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 12px; border-radius: 12px; margin-bottom: 8px;">
+            <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 13px;">
+              <span>7-Day Discipline Sprint</span>
+              <span style="color: var(--cyan-primary);">+200 XP</span>
+            </div>
+            <div style="font-size: 11px; color: var(--text-secondary); margin: 3px 0 8px;">Top 3 Non-Negotiables for 7 days</div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 11px; color: var(--text-muted);">5 / 7 Days Done</span>
+              <button class="btn btn-outline btn-sm" style="font-size: 10px; padding: 3px 8px;" disabled>In Progress</button>
+            </div>
+          </div>
+
+          <div style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 12px; border-radius: 12px;">
+            <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 13px;">
+              <span>30-Day Monk Arc</span>
+              <span style="color: var(--gold-accent);">+500 XP</span>
+            </div>
+            <div style="font-size: 11px; color: var(--text-secondary); margin: 3px 0 8px;">30 unbroken consistency days</div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 11px; color: var(--text-muted);">12 / 30 Days Done</span>
+              <button class="btn btn-outline btn-sm" style="font-size: 10px; padding: 3px 8px;" disabled>In Progress</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Full Settings & Privacy Modal -->
+    <div class="modal-backdrop" id="settingsModal">
+      <div class="modal-sheet" style="max-height: 85vh; overflow-y: auto;">
+        <div class="modal-handle"></div>
+        <div class="modal-header">
+          <h3>⚙️ Settings & Privacy</h3>
+          <button class="close-btn" id="closeSettingsBtn">✕</button>
+        </div>
+        <div class="modal-body">
+          <div style="font-size: 11px; font-weight: 800; letter-spacing: 1px; color: var(--text-secondary); margin-bottom: 8px;">SECURITY & APP LOCK:</div>
+          <div style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 12px; border-radius: 12px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <div style="font-weight: bold; font-size: 13px;">Biometric App Lock</div>
+              <div style="font-size: 11px; color: var(--text-secondary);">Require fingerprint or PIN on app launch</div>
+            </div>
+            <input type="checkbox" id="biometricToggle" checked style="width: 18px; height: 18px; accent-color: var(--cyan-primary);">
+          </div>
+
+          <div style="font-size: 11px; font-weight: 800; letter-spacing: 1px; color: var(--text-secondary); margin-bottom: 8px;">DAILY SCHEDULE:</div>
+          <div style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 12px; border-radius: 12px; margin-bottom: 16px; display: flex; flex-direction: column; gap: 10px;">
+            <label style="display: flex; justify-content: space-between; align-items: center; font-size: 13px;">
+              <span>Morning Prioritization (7:00 AM)</span>
+              <input type="checkbox" checked style="accent-color: var(--cyan-primary);">
+            </label>
+            <label style="display: flex; justify-content: space-between; align-items: center; font-size: 13px;">
+              <span>Evening Check-In & Lock (9:30 PM)</span>
+              <input type="checkbox" checked style="accent-color: var(--cyan-primary);">
+            </label>
+            <label style="display: flex; justify-content: space-between; align-items: center; font-size: 13px;">
+              <span>Sunday Statistical Review (6:00 PM)</span>
+              <input type="checkbox" checked style="accent-color: var(--cyan-primary);">
+            </label>
+          </div>
+
+          <div style="font-size: 11px; font-weight: 800; letter-spacing: 1px; color: var(--text-secondary); margin-bottom: 8px;">REST DAY SCHEDULE:</div>
+          <div style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 12px; border-radius: 12px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 13px; font-weight: 600;">Planned Rest Day:</span>
+            <select id="restDaySelect" class="styled-select" style="padding: 6px 12px; font-size: 12px;">
+              <option value="Sunday" selected>Sunday</option>
+              <option value="Saturday">Saturday</option>
+              <option value="None">None (Strict Mode)</option>
+            </select>
+          </div>
+
+          <div style="font-size: 11px; font-weight: 800; letter-spacing: 1px; color: var(--text-secondary); margin-bottom: 8px;">DATA SOVEREIGNTY:</div>
+          <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px;">
+            <button class="btn btn-outline btn-block" id="exportBackupBtn">
+              💾 Export Offline Backup JSON (Download)
+            </button>
+            <button class="btn btn-outline btn-block" style="border-color: rgba(255, 61, 0, 0.5); color: var(--orange-flame);" onclick="alert('Journey reset: Archived active 90-day mission. Ready for clean Day 1.')">
+              🔄 Reset Current 90-Day Mission
+            </button>
+          </div>
+
+          <div style="background: var(--bg-surface); border: 1px solid var(--border-color); padding: 12px; border-radius: 10px; font-size: 11px; color: var(--text-secondary); line-height: 1.4;">
+            <strong>🛡️ Offline-First Manifesto:</strong> Tapasya stores 100% of your habits, notes, and scores locally. Zero cloud tracking, zero external telemetry.
           </div>
         </div>
       </div>

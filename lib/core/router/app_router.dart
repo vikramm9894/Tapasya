@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../features/challenges/presentation/challenges_screen.dart';
+import '../../features/exam_mode/presentation/exam_mode_screen.dart';
 import '../../features/habits/presentation/create_habit_screen.dart';
 import '../../features/home/presentation/today_screen.dart';
 import '../../features/onboarding/presentation/onboarding_screen.dart';
+import '../../features/settings/presentation/settings_screen.dart';
 import '../../features/weekly_review/presentation/weekly_review_screen.dart';
 import '../../features/progress/presentation/progress_screen.dart';
 import '../../features/focus/presentation/focus_screen.dart';
@@ -34,6 +37,24 @@ class AppRouter {
         path: '/weekly-review',
         parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state) => const WeeklyReviewScreen(),
+      ),
+      // Exam Mode Route
+      GoRoute(
+        path: '/exam-mode',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const ExamModeScreen(),
+      ),
+      // Challenges & Boss Battles Route
+      GoRoute(
+        path: '/challenges',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const ChallengesScreen(),
+      ),
+      // Settings Route
+      GoRoute(
+        path: '/settings',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const SettingsScreen(),
       ),
       // 4-Tab Shell Route
       StatefulShellRoute.indexedStack(

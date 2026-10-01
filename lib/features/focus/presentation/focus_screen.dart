@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_theme.dart';
 import '../providers/focus_provider.dart';
@@ -259,14 +260,24 @@ class _FocusScreenState extends ConsumerState<FocusScreen> {
                           ),
                         ],
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                      Row(
                         children: [
-                          Text(
-                            '$_daysLeft',
-                            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: AppTheme.secondaryEmber),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                '$_daysLeft',
+                                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: AppTheme.secondaryEmber),
+                              ),
+                              const Text('DAYS LEFT', style: TextStyle(fontSize: 8, fontWeight: FontWeight.bold, color: AppTheme.textMuted)),
+                            ],
                           ),
-                          const Text('DAYS LEFT', style: TextStyle(fontSize: 8, fontWeight: FontWeight.bold, color: AppTheme.textMuted)),
+                          const SizedBox(width: 8),
+                          IconButton(
+                            tooltip: 'Open Full Exam Mode Dashboard',
+                            icon: const Icon(Icons.open_in_new, size: 20, color: AppTheme.primaryCyan),
+                            onPressed: () => context.push('/exam-mode'),
+                          ),
                         ],
                       ),
                     ],

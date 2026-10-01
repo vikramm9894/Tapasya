@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../domain/engines/xp_engine.dart';
 
@@ -14,6 +15,13 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('ME & PROGRESSION'),
+        actions: [
+          IconButton(
+            tooltip: 'Settings & Privacy',
+            icon: const Icon(Icons.settings_outlined, color: AppTheme.textPrimary),
+            onPressed: () => context.push('/settings'),
+          ),
+        ],
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
@@ -94,7 +102,62 @@ class ProfileScreen extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: 20),
+
+          // Mini Challenges & Exam Velocity Action Cards
+          Row(
+            children: [
+              Expanded(
+                child: GestureDetector(
+                  onTap: () => context.push('/challenges'),
+                  child: Container(
+                    padding: const EdgeInsets.all(14),
+                    decoration: BoxDecoration(
+                      color: AppTheme.surfaceElevated,
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(color: AppTheme.secondaryEmber.withOpacity(0.5)),
+                    ),
+                    child: const Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('⚔️ BOSS BATTLE', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppTheme.secondaryEmber)),
+                        SizedBox(height: 4),
+                        Text('Weekly Titan', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900)),
+                        SizedBox(height: 2),
+                        Text('6 HP Left • Sprints', style: TextStyle(fontSize: 11, color: AppTheme.textSecondary)),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: GestureDetector(
+                  onTap: () => context.push('/exam-mode'),
+                  child: Container(
+                    padding: const EdgeInsets.all(14),
+                    decoration: BoxDecoration(
+                      color: AppTheme.surfaceElevated,
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(color: AppTheme.primaryCyan.withOpacity(0.5)),
+                    ),
+                    child: const Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('🎯 EXAM MODE', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppTheme.primaryCyan)),
+                        SizedBox(height: 4),
+                        Text('Velocity Tracker', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900)),
+                        SizedBox(height: 2),
+                        Text('14 Days • 1.4/day', style: TextStyle(fontSize: 11, color: AppTheme.textSecondary)),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 20),
 
           // Season Recap Card
           Card(

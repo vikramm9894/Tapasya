@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/date_utils.dart';
 import '../../../domain/engines/score_engine.dart';
@@ -267,7 +268,74 @@ class _TodayScreenState extends State<TodayScreen> {
             ),
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: 16),
+
+          // Quick Access: Exam Mode & Boss Battle
+          Row(
+            children: [
+              Expanded(
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(12),
+                  onTap: () => context.push('/challenges'),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                    decoration: BoxDecoration(
+                      color: AppTheme.surfaceElevated,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: AppTheme.secondaryEmber.withOpacity(0.4)),
+                    ),
+                    child: const Row(
+                      children: [
+                        Text('👹', style: TextStyle(fontSize: 18)),
+                        SizedBox(width: 8),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Boss Battle', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
+                              Text('6 HP Remaining', style: TextStyle(fontSize: 10, color: AppTheme.secondaryEmber)),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(12),
+                  onTap: () => context.push('/exam-mode'),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                    decoration: BoxDecoration(
+                      color: AppTheme.surfaceElevated,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: AppTheme.primaryCyan.withOpacity(0.4)),
+                    ),
+                    child: const Row(
+                      children: [
+                        Text('🎯', style: TextStyle(fontSize: 18)),
+                        SizedBox(width: 8),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Exam Velocity', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
+                              Text('14d • 1.4 topics/d', style: TextStyle(fontSize: 10, color: AppTheme.primaryCyan)),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 20),
 
           // 3 Non-Negotiables Section Header
           Row(

@@ -350,6 +350,210 @@ document.getElementById('finishOnboardingBtn').addEventListener('click', () => {
   showToast('90-Day Tapasya Activated! Welcome, Vikram! 🔥');
 });
 
+// --- EXAM MODE LOGIC ---
+const examState = {
+  daysLeft: 14,
+  topics: [
+    { id: 'et1', title: 'Binary Trees, BFS & DFS Traversals', done: true },
+    { id: 'et2', title: 'Dynamic Programming (Knapsack & LCS)', done: true },
+    { id: 'et3', title: 'Graph Shortest Path & Dijkstra', done: false },
+    { id: 'et4', title: 'B-Trees & Database B+ Indexing', done: false },
+    { id: 'et5', title: 'Operating Systems: Semaphores & Deadlock', done: false }
+  ]
+};
+
+function updateExamModeUI() {
+  const total = examState.topics.length;
+  const done = examState.topics.filter(t => t.done).length;
+  const remaining = total - done;
+  const velocity = examState.daysLeft > 0 ? (remaining / examState.daysLeft).toFixed(1) : 0;
+  const pct = total > 0 ? Math.round((done / total) * 100) : 100;
+
+  // Update pills on Today & Me tabs
+  const todayVelEl = document.getElementById('todayExamVel');
+  if (todayVelEl) todayVelEl.textContent = velocity;
+  const meVelEl = document.getElementById('meExamVel');
+  if (meVelEl) meVelEl.textContent = velocity;
+
+  // Modal elements
+  const progressCountEl = document.getElementById('examProgressCount');
+  if (progressCountEl) progressCountEl.textContent = `${done} of ${total} topics completed (${pct}%)`;
+  const progressBarEl = document.getElementById('examProgressBar');
+  if (progressBarEl) progressBarEl.style.width = `${pct}%`;
+  const rateEl = document.getElementById('examVelocityRate');
+  if (rateEl) rateEl.textContent = velocity;
+
+  const badgeEl = document.getElementById('examStatusBadge');
+  if (badgeEl) {
+    if (velocity <= 1.0) {
+      badgeEl.textContent = 'On Track';
+      badgeEl.style.color = 'var(--cyan-primary)';
+      badgeEl.style.background = 'rgba(0,229,255,0.15)';
+    } else if (velocity <= 2.5) {
+      badgeEl.textContent = 'Steady Focus';
+      badgeEl.style.color = '#FFB300';
+      badgeEl.style.background = 'rgba(255,179,0,0.15)';
+    } else {
+      badgeEl.textContent = 'Accelerate!';
+      badgeEl.style.color = 'var(--orange-flame)';
+      badgeEl.style.background = 'rgba(255,61,0,0.15)';
+    }
+  }
+
+  // Render topic list
+  const listEl = document.getElementById('examTopicsList');
+  if (listEl) {
+    listEl.innerHTML = '';
+    examState.topics.forEach(t => {
+      const row = document.createElement('div');
+      row.style.cssText = 'background: var(--bg-card); border: 1px solid var(--border-color); padding: 10px 12px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; font-size: 13px;';
+      row.innerHTML = `
+        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; flex: 1;">
+          <input type="checkbox" ${t.done ? 'checked' : ''} style="width: 16px; height: 16px; accent-color: var(--cyan-primary);">
+          <span style="${t.done ? 'text-decoration: line-through; color: var(--text-muted);' : 'color: var(--text-primary); font-weight: 500;'}">${t.title}</span>
+        </label>
+      `;
+      row.querySelector('input').addEventListener('change', (e) => {
+        t.done = e.target.checked;
+        updateExamModeUI();
+      });
+      listEl.appendChild(row);
+    });
+  }
+}
+
+// Add Topic
+const newTopicInput = document.getElementById('newTopicInput');
+const addNewTopicBtn = document.getElementById('addNewTopicBtn');
+if (addNewTopicBtn && newTopicInput) {
+  addNewTopicBtn.addEventListener('click', () => {
+    const val = newTopicInput.value.trim();
+    if (val) {
+      examState.topics.push({ id: 'et_' + Date.now(), title: val, done: false });
+      newTopicInput.value = '';
+      updateExamModeUI();
+      showToast(`Added topic: "${val}"`);
+    }
+  });
+}
+
+// --- BOSS BATTLE LOGIC ---
+const bossState = {
+  maxHp: 15,
+  hp: 6,
+  defeated: false
+};
+
+function updateBossUI() {
+  const hpBadge = document.getElementById('bossHpBadge');
+  const hpBar = document.getElementById('bossHpBar');
+  const bossEmoji = document.getElementById('bossEmoji');
+  const bossNameTitle = document.getElementById('bossNameTitle');
+  const attackBtn = document.getElementById('attackBossBtn');
+
+  const todayHp = document.getElementById('todayBossHpText');
+  const meHp = document.getElementById('meBossHpText');
+
+  if (todayHp) todayHp.textContent = bossState.defeated ? 'Defeated' : bossState.hp;
+  if (meHp) meHp.textContent = bossState.defeated ? 'Defeated' : bossState.hp;
+
+  if (bossState.defeated) {
+    if (hpBadge) { hpBadge.textContent = 'VICTORY'; hpBadge.style.color = '#00E676'; }
+    if (hpBar) { hpBar.style.width = '0%'; hpBar.style.background = '#00E676'; }
+    if (bossEmoji) bossEmoji.textContent = '🏆';
+    if (bossNameTitle) bossNameTitle.textContent = 'Titan Vanquished!';
+    if (attackBtn) { attackBtn.disabled = true; attackBtn.textContent = 'Titan Vanquished! (+150 XP Awarded)'; }
+  } else {
+    if (hpBadge) hpBadge.textContent = `${bossState.hp} / ${bossState.maxHp} HP`;
+    if (hpBar) hpBar.style.width = `${Math.round((bossState.hp / bossState.maxHp) * 100)}%`;
+  }
+}
+
+const attackBossBtn = document.getElementById('attackBossBtn');
+if (attackBossBtn) {
+  attackBossBtn.addEventListener('click', () => {
+    if (bossState.hp > 1) {
+      bossState.hp -= 1;
+      showToast('⚔️ Struck Titan for 1 HP damage!');
+    } else {
+      bossState.hp = 0;
+      bossState.defeated = true;
+      state.totalXp += 150;
+      showToast('🏆 TITAN DEFEATED! +150 XP Awarded!');
+      updateUI();
+    }
+    updateBossUI();
+  });
+}
+
+// --- EXPORT BACKUP FUNCTION ---
+function exportOfflineBackup() {
+  const backupData = {
+    app: 'Tapasya',
+    version: '1.0.0',
+    exported_at: new Date().toISOString(),
+    user: 'Vikram Nishad',
+    state: {
+      day: state.dayNumber,
+      totalDays: state.totalDays,
+      streak: state.streak,
+      totalXp: state.totalXp,
+      habits: [...state.nonNegotiables, ...state.bonusHabits],
+      examState: examState,
+      bossState: bossState
+    }
+  };
+
+  const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `tapasya_backup_${new Date().toISOString().substring(0, 10)}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('💾 Offline JSON backup downloaded!');
+}
+
+// Event Listeners for Export
+const exportBackupBtn = document.getElementById('exportBackupBtn');
+if (exportBackupBtn) exportBackupBtn.addEventListener('click', exportOfflineBackup);
+const exportBackupDirectBtn = document.getElementById('exportBackupDirectBtn');
+if (exportBackupDirectBtn) exportBackupDirectBtn.addEventListener('click', exportOfflineBackup);
+
+// --- MODAL CONTROLLERS ---
+const examModal = document.getElementById('examModal');
+const closeExamBtn = document.getElementById('closeExamBtn');
+if (closeExamBtn && examModal) closeExamBtn.addEventListener('click', () => examModal.classList.remove('show'));
+
+const openExamTodayBtn = document.getElementById('openExamTodayBtn');
+if (openExamTodayBtn && examModal) openExamTodayBtn.addEventListener('click', () => { updateExamModeUI(); examModal.classList.add('show'); });
+const openExamMeBtn = document.getElementById('openExamMeBtn');
+if (openExamMeBtn && examModal) openExamMeBtn.addEventListener('click', () => { updateExamModeUI(); examModal.classList.add('show'); });
+
+const challengesModal = document.getElementById('challengesModal');
+const closeChallengesBtn = document.getElementById('closeChallengesBtn');
+if (closeChallengesBtn && challengesModal) closeChallengesBtn.addEventListener('click', () => challengesModal.classList.remove('show'));
+
+const openChallengesTodayBtn = document.getElementById('openChallengesTodayBtn');
+if (openChallengesTodayBtn && challengesModal) openChallengesTodayBtn.addEventListener('click', () => { updateBossUI(); challengesModal.classList.add('show'); });
+const openChallengesMeBtn = document.getElementById('openChallengesMeBtn');
+if (openChallengesMeBtn && challengesModal) openChallengesMeBtn.addEventListener('click', () => { updateBossUI(); challengesModal.classList.add('show'); });
+
+const settingsModal = document.getElementById('settingsModal');
+const closeSettingsBtn = document.getElementById('closeSettingsBtn');
+if (closeSettingsBtn && settingsModal) closeSettingsBtn.addEventListener('click', () => settingsModal.classList.remove('show'));
+const openSettingsModalBtn = document.getElementById('openSettingsModalBtn');
+if (openSettingsModalBtn && settingsModal) openSettingsModalBtn.addEventListener('click', () => settingsModal.classList.add('show'));
+
+const biometricToggle = document.getElementById('biometricToggle');
+if (biometricToggle) {
+  biometricToggle.addEventListener('change', (e) => {
+    showToast(e.target.checked ? '🔒 Biometric App Lock Enabled' : '🔓 Biometric App Lock Disabled');
+  });
+}
+
 document.getElementById('currentDateDisplay').textContent = new Date().toLocaleDateString('en-US', {
   weekday: 'short',
   month: 'short',
@@ -358,3 +562,6 @@ document.getElementById('currentDateDisplay').textContent = new Date().toLocaleD
 buildJourneyMatrix();
 updateUI();
 updateTimerDisplay();
+updateExamModeUI();
+updateBossUI();
+
