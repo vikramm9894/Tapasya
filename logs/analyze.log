@@ -1,0 +1,38 @@
+Analyzing Tapasya...                                            
+
+warning • Unused import: '../domain/engines/streak_engine.dart' • lib/background/workmanager_callback.dart:3:8 • unused_import
+warning • The value of the local variable 'yesterday' isn't used • lib/background/workmanager_callback.dart:20:9 • unused_local_variable
+warning • The value of the local variable 'currentMonth' isn't used • lib/background/workmanager_callback.dart:21:9 • unused_local_variable
+   info • 'background' is deprecated and shouldn't be used. Use surface instead. This feature was deprecated after v3.18.0-0.1.pre • lib/core/theme/app_theme.dart:31:9 • deprecated_member_use
+   info • 'onBackground' is deprecated and shouldn't be used. Use onSurface instead. This feature was deprecated after v3.18.0-0.1.pre • lib/core/theme/app_theme.dart:36:9 • deprecated_member_use
+   info • Convert 'connection' to a super parameter • lib/data/database/app_database.dart:35:15 • use_super_parameters
+   info • Use 'const' with the constructor to improve performance • lib/features/focus/presentation/focus_screen.dart:265:27 • prefer_const_constructors
+   info • Use 'const' literals as arguments to constructors of '@immutable' classes • lib/features/focus/presentation/focus_screen.dart:267:39 • prefer_const_literals_to_create_immutables
+   info • Use 'const' with the constructor to improve performance • lib/features/focus/presentation/focus_screen.dart:268:31 • prefer_const_constructors
+   info • The private field _kind could be 'final' • lib/features/habits/presentation/create_habit_screen.dart:27:10 • prefer_final_fields
+   info • The private field _cueTime could be 'final' • lib/features/habits/presentation/create_habit_screen.dart:29:14 • prefer_final_fields
+   info • Use 'const' with the constructor to improve performance • lib/features/home/presentation/today_screen.dart:172:25 • prefer_const_constructors
+   info • Use 'const' literals as arguments to constructors of '@immutable' classes • lib/features/home/presentation/today_screen.dart:173:25 • prefer_const_literals_to_create_immutables
+warning • Unused import: '../../../domain/models/habit_model.dart' • lib/features/morning_routine/presentation/morning_sheet.dart:7:8 • unused_import
+   info • Use 'const' with the constructor to improve performance • lib/features/morning_routine/presentation/morning_sheet.dart:63:15 • prefer_const_constructors
+   info • Use 'const' literals as arguments to constructors of '@immutable' classes • lib/features/morning_routine/presentation/morning_sheet.dart:65:27 • prefer_const_literals_to_create_immutables
+   info • Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check • lib/features/morning_routine/presentation/morning_sheet.dart:169:50 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps • lib/features/profile/presentation/widgets/season_recap_widget.dart:49:28 • use_build_context_synchronously
+   info • Use 'const' with the constructor to improve performance • lib/features/settings/presentation/settings_screen.dart:167:17 • prefer_const_constructors
+   info • Use 'const' with the constructor to improve performance • lib/features/weekly_review/presentation/weekly_review_screen.dart:55:17 • prefer_const_constructors
+   info • Use 'const' literals as arguments to constructors of '@immutable' classes • lib/features/weekly_review/presentation/weekly_review_screen.dart:57:29 • prefer_const_literals_to_create_immutables
+   info • Use 'const' with the constructor to improve performance • lib/features/weekly_review/presentation/weekly_review_screen.dart:73:21 • prefer_const_constructors
+   info • Use 'const' with the constructor to improve performance • lib/features/weekly_review/presentation/weekly_review_screen.dart:115:26 • prefer_const_constructors
+   info • Use 'const' literals as arguments to constructors of '@immutable' classes • lib/features/weekly_review/presentation/weekly_review_screen.dart:117:31 • prefer_const_literals_to_create_immutables
+   info • Use 'const' with the constructor to improve performance • lib/features/weekly_review/presentation/weekly_review_screen.dart:142:26 • prefer_const_constructors
+   info • Use 'const' literals as arguments to constructors of '@immutable' classes • lib/features/weekly_review/presentation/weekly_review_screen.dart:144:31 • prefer_const_literals_to_create_immutables
+   info • Use 'const' with the constructor to improve performance • test/ai/ai_guard_test.dart:20:15 • prefer_const_constructors
+   info • Can't use a relative path to import a library in 'lib' • test/engines/adaptive_goal_engine_test.dart:2:8 • avoid_relative_lib_imports
+   info • Can't use a relative path to import a library in 'lib' • test/engines/date_edge_cases_test.dart:2:8 • avoid_relative_lib_imports
+   info • Can't use a relative path to import a library in 'lib' • test/engines/date_edge_cases_test.dart:3:8 • avoid_relative_lib_imports
+   info • Can't use a relative path to import a library in 'lib' • test/engines/insight_engine_test.dart:2:8 • avoid_relative_lib_imports
+   info • Can't use a relative path to import a library in 'lib' • test/engines/score_engine_test.dart:2:8 • avoid_relative_lib_imports
+   info • Can't use a relative path to import a library in 'lib' • test/engines/streak_engine_test.dart:2:8 • avoid_relative_lib_imports
+   info • Can't use a relative path to import a library in 'lib' • test/engines/xp_engine_test.dart:2:8 • avoid_relative_lib_imports
+
+34 issues found. (ran in 11.7s)
