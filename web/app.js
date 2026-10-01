@@ -160,14 +160,33 @@ function buildJourneyMatrix() {
     const cell = document.createElement('div');
     cell.className = 'matrix-cell';
     cell.textContent = i;
+    cell.style.cursor = 'pointer';
     if (i < state.dayNumber) {
       cell.classList.add('done');
     } else if (i === state.dayNumber) {
       cell.classList.add('today');
     }
+
+    cell.addEventListener('click', () => {
+      const isPast = i < state.dayNumber;
+      const isCurrent = i === state.dayNumber;
+      const score = isCurrent ? calculateDailyScore() : (isPast ? 85 : 0);
+      const status = isCurrent ? 'Today (In Progress)' : (isPast ? 'Completed • 100% Non-Negotiables' : 'Upcoming Day');
+
+      document.getElementById('detailDayTitle').textContent = `Day ${i} of 90`;
+      document.getElementById('detailDayStatus').textContent = status;
+      document.getElementById('detailDayScore').textContent = `${score}/100`;
+
+      document.getElementById('dayDetailModal').classList.add('show');
+    });
+
     matrix.appendChild(cell);
   }
 }
+
+document.getElementById('closeDayDetailBtn').addEventListener('click', () => {
+  document.getElementById('dayDetailModal').classList.remove('show');
+});
 
 const timerDigits = document.getElementById('timerDigits');
 const timerDialBar = document.getElementById('timerDialBar');

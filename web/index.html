@@ -547,6 +547,39 @@
       </div>
     </div>
 
+    <!-- Day Detail Modal -->
+    <div class="modal-backdrop" id="dayDetailModal">
+      <div class="modal-sheet">
+        <div class="modal-handle"></div>
+        <div class="modal-header">
+          <div>
+            <h3 id="detailDayTitle">Day 8 of 90</h3>
+            <span style="font-size: 11px; color: var(--text-secondary);" id="detailDayStatus">Completed • High Discipline</span>
+          </div>
+          <button class="close-btn" id="closeDayDetailBtn">✕</button>
+        </div>
+        <div class="modal-body">
+          <div style="background: var(--bg-card); padding: 14px; border-radius: 12px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 12px; color: var(--text-secondary);">Daily Score:</span>
+            <span style="font-size: 20px; font-weight: 900; color: var(--cyan-primary);" id="detailDayScore">85/100</span>
+          </div>
+
+          <div style="font-size: 11px; font-weight: bold; color: var(--text-secondary); margin-bottom: 8px;">HABITS LOGGED:</div>
+          <div style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; margin-bottom: 16px;">
+            <div>✓ Deep Study (60m) — <span style="color: var(--text-muted); font-size: 11px;">via Timer</span></div>
+            <div>✓ Morning Workout / Run — <span style="color: var(--text-muted); font-size: 11px;">45m</span></div>
+            <div>✓ Read 15 Pages Book — <span style="color: var(--text-muted); font-size: 11px;">Completed</span></div>
+          </div>
+
+          <div style="font-size: 11px; font-weight: bold; color: var(--text-secondary); margin-bottom: 8px;">NIGHT REVIEW:</div>
+          <div style="background: var(--bg-surface); border: 1px solid var(--border-color); padding: 12px; border-radius: 10px; font-size: 12px;">
+            <div style="color: var(--cyan-primary); margin-bottom: 4px;">Sleep: 7.5h • Mood: 4/5 • Focus: 5/5</div>
+            <div style="color: var(--text-secondary); font-style: italic;">"Completed tree traversals without looking at solutions. Strong day!"</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Floating XP Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
 

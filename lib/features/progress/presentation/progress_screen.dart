@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_theme.dart';
+import 'widgets/day_detail_sheet.dart';
 
 class ProgressScreen extends StatelessWidget {
   const ProgressScreen({super.key});
@@ -84,29 +85,41 @@ class ProgressScreen extends StatelessWidget {
               ),
               itemBuilder: (context, index) {
                 final day = index + 1;
-                // Highlight completed days (e.g. days 1-12)
                 final isDone = day <= 11;
                 final isToday = day == 12;
+                final cellScore = isToday ? 75 : (isDone ? 85 : 0);
+                final status = isToday ? 'In Progress' : (isDone ? 'Completed 🔥' : 'Upcoming');
 
-                return Container(
-                  decoration: BoxDecoration(
-                    color: isToday
-                        ? AppTheme.secondaryEmber
-                        : isDone
-                            ? AppTheme.primaryCyan.withOpacity(0.8)
-                            : AppTheme.surfaceElevated,
-                    borderRadius: BorderRadius.circular(4),
-                    border: isToday
-                        ? Border.all(color: Colors.white, width: 1.5)
-                        : null,
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    '$day',
-                    style: TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
-                      color: (isDone || isToday) ? Colors.black : AppTheme.textMuted,
+                return GestureDetector(
+                  onTap: () {
+                    DayDetailSheet.show(
+                      context,
+                      dayNumber: day,
+                      score: cellScore,
+                      status: status,
+                      isToday: isToday,
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: isToday
+                          ? AppTheme.secondaryEmber
+                          : isDone
+                              ? AppTheme.primaryCyan.withOpacity(0.8)
+                              : AppTheme.surfaceElevated,
+                      borderRadius: BorderRadius.circular(4),
+                      border: isToday
+                          ? Border.all(color: Colors.white, width: 1.5)
+                          : null,
+                    ),
+                    alignment: Alignment.center,
+                    child: Text(
+                      '$day',
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        color: (isDone || isToday) ? Colors.black : AppTheme.textMuted,
+                      ),
                     ),
                   ),
                 );
