@@ -135,15 +135,15 @@ int dailyScore({
 
 ## 6. Development Roadmap & Phased Execution
 
-| Phase | Duration | Scope & Key Deliverables | Done Criteria |
+| Phase | Duration | Scope & Key Deliverables | Status |
 | :--- | :--- | :--- | :--- |
-| **0. Setup** | Week 0.5 | Flutter 3 scaffold, Drift, Riverpod, go_router, Theme tokens | 4 tabs run cleanly with Riverpod & Drift DB initialized |
-| **1. Foundation** | Weeks 1–2 | Drift tables, DAOs, Habit CRUD, 4-step Onboarding flow | Create habits, onboard, restart app without data loss |
-| **2. Core Loop** | Weeks 3–4 | Top 3 priorities, Score & Streak engines, Morning/Night sheets | Full 24-hr loop functional; streak updates automatically |
-| **3. Gamification** | Weeks 5–6 | XP/Level system, Achievements, 90-day Calendar Heatmap | XP bar updates live, calendar displays correct status colors |
-| **4. Focus & Alerts** | Week 7 | Pomodoro timer, Exam mode, WorkManager midnight rollover | Timer auto-logs to habits; notifications fire reliably |
-| **5. Insights & Polish**| Week 8 | Sunday weekly review, Adaptive suggestions, Home Widgets | Review generates correlations; Android widget functions |
-| **6. Beta & Release** | Weeks 9–10 | Unit testing (>95% engine coverage), Closed beta, Play Store | Production App Bundle (`.aab`) deployed to Play Console |
+| **0. Setup** | Week 0.5 | Flutter 3 scaffold, Drift, Riverpod, go_router, Theme tokens | ✅ **COMPLETED** |
+| **1. Foundation** | Weeks 1–2 | Drift tables, DAOs, Habit CRUD, 4-step Onboarding flow | ✅ **COMPLETED** |
+| **2. Core Loop** | Weeks 3–4 | Top 3 priorities, Score & Streak engines, Morning/Night sheets | ✅ **COMPLETED** |
+| **3. Gamification** | Weeks 5–6 | XP/Level system, Achievements, 90-day Calendar Heatmap | ⏳ In Progress |
+| **4. Focus & Alerts** | Week 7 | Pomodoro timer, Exam mode, WorkManager midnight rollover | ⏳ Planned |
+| **5. Insights & Polish**| Week 8 | Sunday weekly review, Adaptive suggestions, Home Widgets | ⏳ Planned |
+| **6. Beta & Release** | Weeks 9–10 | Unit testing (>95% engine coverage), Closed beta, Play Store | ⏳ Planned |
 
 ---
 

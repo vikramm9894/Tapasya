@@ -4,6 +4,8 @@ import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/date_utils.dart';
 import '../../../domain/engines/score_engine.dart';
 import '../../../domain/engines/xp_engine.dart';
+import '../../morning_routine/presentation/morning_sheet.dart';
+import '../../night_review/presentation/night_review_sheet.dart';
 
 class TodayScreen extends StatefulWidget {
   const TodayScreen({super.key});
@@ -286,12 +288,26 @@ class _TodayScreenState extends State<TodayScreen> {
                   ),
                 ],
               ),
-              Text(
-                '${_nonNegotiables.where((h) => h['completed'] == true).length}/3',
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: AppTheme.primaryCyan,
-                ),
+              Row(
+                children: [
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                      minimumSize: Size.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    onPressed: () => MorningPrioritizationSheet.show(context),
+                    child: const Text('Pick (3)', style: TextStyle(fontSize: 12, color: AppTheme.primaryCyan)),
+                  ),
+                  const SizedBox(width: 6),
+                  Text(
+                    '${_nonNegotiables.where((h) => h['completed'] == true).length}/3',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: AppTheme.primaryCyan,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -401,10 +417,23 @@ class _TodayScreenState extends State<TodayScreen> {
               style: const TextStyle(fontWeight: FontWeight.bold, color: AppTheme.textPrimary),
             ),
             onPressed: () {
-              setState(() {
-                checkedIn = !checkedIn;
-              });
               HapticFeedback.selectionClick();
+              NightReviewSheet.show(
+                context,
+                currentScore: calculatedScore,
+                onLocked: () {
+                  setState(() {
+                    checkedIn = true;
+                  });
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Day Finalized & Locked! Score bonus added 🔥'),
+                      backgroundColor: AppTheme.surfaceElevated,
+                      behavior: SnackBarBehavior.floating,
+                    ),
+                  );
+                },
+              );
             },
           ),
         ],
