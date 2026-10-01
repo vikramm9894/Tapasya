@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/date_utils.dart';
-import '../../../domain/models/habit_model.dart';
 import '../../home/providers/daily_log_provider.dart';
 import '../../home/providers/habits_provider.dart';
 

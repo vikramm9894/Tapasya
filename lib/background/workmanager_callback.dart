@@ -1,6 +1,5 @@
 import 'package:workmanager/workmanager.dart';
 import '../core/utils/date_utils.dart';
-import '../domain/engines/streak_engine.dart';
 
 const String midnightRolloverTask = 'com.tapasya.midnight_rollover';
 
@@ -17,8 +16,7 @@ void callbackDispatcher() {
 }
 
 Future<void> _handleMidnightRollover() async {
-  final yesterday = AppDateUtils.yesterdayKey();
-  final currentMonth = AppDateUtils.currentMonthKey();
+  // Key dates: AppDateUtils.yesterdayKey(), AppDateUtils.currentMonthKey()
 
   // Smart Streak Rollover Rule:
   // If yesterday has no completed entry:
