@@ -101,3 +101,20 @@ jobs:
           files: output_apk/*.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push Diagnostic Logs on Failure
+        if: failure()
+        run: |
+          git config --global user.name "Vikram Nishad"
+          git config --global user.email "vikramnishad9894@gmail.com"
+          git checkout --orphan build-logs
+          git rm -rf . || true
+          mkdir -p logs
+          cp *.log logs/ 2>/dev/null || true
+          cp build/app/outputs/logs/*.log logs/ 2>/dev/null || true
+          echo "Build failed at $(date)" > logs/failed_at.txt
+          git add logs/
+          git commit -m "chore: upload build diagnostic logs"
+          git push -f origin build-logs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

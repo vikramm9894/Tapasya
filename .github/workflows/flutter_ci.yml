@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [ main ]
 
+permissions:
+  contents: write
+
 jobs:
   test_and_analyze:
     name: Flutter Lint & Pure Engine Test Suite
@@ -50,3 +53,19 @@ jobs:
 
       - name: Run Pure Domain Engine & AI Tests
         run: flutter test test/engines/ test/ai/
+
+      - name: Push Analyze Logs on Failure
+        if: failure()
+        run: |
+          git config --global user.name "Vikram Nishad"
+          git config --global user.email "vikramnishad9894@gmail.com"
+          git checkout --orphan analyze-logs
+          git rm -rf . || true
+          mkdir -p logs
+          cp analyze.log logs/ 2>/dev/null || true
+          echo "Analyze failed at $(date)" > logs/failed_at.txt
+          git add logs/
+          git commit -m "chore: upload analyze diagnostic logs"
+          git push -f origin analyze-logs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
