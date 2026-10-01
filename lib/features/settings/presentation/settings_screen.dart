@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import '../../../core/backup/backup_service.dart';
 import '../../../core/security/biometric_service.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../ai/ai_consent_section.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -170,6 +171,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ],
             ),
+          ),
+
+          const SizedBox(height: 20),
+
+          // AI Coach & Privacy Consent
+          _sectionHeader('AI COACH & PRIVACY CONSENT'),
+          Card(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+            child: const AiConsentSection(),
           ),
 
           const SizedBox(height: 20),

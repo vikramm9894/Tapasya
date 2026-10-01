@@ -37,5 +37,5 @@ jobs:
       - name: Analyze Code Quality
         run: flutter analyze --no-fatal-infos
 
-      - name: Run Pure Domain Engine Tests
-        run: flutter test test/engines/
+      - name: Run Pure Domain Engine & AI Tests
+        run: flutter test test/engines/ test/ai/

@@ -157,6 +157,27 @@ class ProfileScreen extends StatelessWidget {
             ],
           ),
 
+          const SizedBox(height: 12),
+
+          // Tapasya AI Coach Tile
+          Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+              side: const BorderSide(color: AppTheme.primaryCyan, width: 1),
+            ),
+            child: ListTile(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              leading: const CircleAvatar(
+                backgroundColor: Color(0x2200E5FF),
+                child: Text('🤖', style: TextStyle(fontSize: 20)),
+              ),
+              title: const Text('Tapasya AI Coach', style: TextStyle(fontWeight: FontWeight.bold)),
+              subtitle: const Text('Why-aware guidance & habit motivation (Offline-ready)', style: TextStyle(fontSize: 11, color: AppTheme.textSecondary)),
+              trailing: const Icon(Icons.arrow_forward_ios, size: 14, color: AppTheme.primaryCyan),
+              onTap: () => context.push('/coach'),
+            ),
+          ),
+
           const SizedBox(height: 20),
 
           // Season Recap Card

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../features/ai/ai_chat_screen.dart';
 import '../../features/challenges/presentation/challenges_screen.dart';
 import '../../features/exam_mode/presentation/exam_mode_screen.dart';
 import '../../features/habits/presentation/create_habit_screen.dart';
@@ -55,6 +56,12 @@ class AppRouter {
         path: '/settings',
         parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state) => const SettingsScreen(),
+      ),
+      // AI Chat Coach Route
+      GoRoute(
+        path: '/coach',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const AiChatScreen(),
       ),
       // 4-Tab Shell Route
       StatefulShellRoute.indexedStack(

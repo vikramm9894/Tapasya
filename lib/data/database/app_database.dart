@@ -4,6 +4,7 @@ import 'package:drift/native.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 
+import '../ai/ai_tables.dart';
 import '../tables/schema.dart';
 
 part 'app_database.g.dart';
@@ -24,6 +25,9 @@ part 'app_database.g.dart';
   ChallengeDays,
   Achievements,
   Settings,
+  AiInsights,
+  AiChatMessages,
+  AiSuggestionRows,
 ])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
@@ -31,7 +35,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(DatabaseConnection connection) : super(connection);
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration {
@@ -40,8 +44,11 @@ class AppDatabase extends _$AppDatabase {
         await m.createAll();
       },
       onUpgrade: (Migrator m, int from, int to) async {
-        // Schema migrations will be incremented sequentially.
-        // Never drop tables in production.
+        if (from < 2) {
+          await m.createTable(aiInsights);
+          await m.createTable(aiChatMessages);
+          await m.createTable(aiSuggestionRows);
+        }
       },
       beforeOpen: (details) async {
         // Enable foreign key constraints in SQLite

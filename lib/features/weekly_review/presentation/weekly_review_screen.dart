@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_theme.dart';
 import '../../../domain/engines/adaptive_goal_engine.dart';
+import '../../ai/ai_coach_card.dart';
 import 'widgets/adaptive_goal_card.dart';
 
 class WeeklyReviewScreen extends ConsumerStatefulWidget {
@@ -209,6 +211,20 @@ class _WeeklyReviewScreenState extends ConsumerState<WeeklyReviewScreen> {
             ),
             const SizedBox(height: 24),
           ],
+
+          // AI Coach Card (Offline default / Cloud opt-in)
+          const AiCoachCard(),
+          const SizedBox(height: 12),
+          OutlinedButton.icon(
+            style: OutlinedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              side: const BorderSide(color: AppTheme.primaryCyan),
+            ),
+            icon: const Icon(Icons.chat_bubble_outline, color: AppTheme.primaryCyan),
+            label: const Text('Chat with AI Coach', style: TextStyle(color: AppTheme.primaryCyan, fontWeight: FontWeight.bold)),
+            onPressed: () => context.push('/coach'),
+          ),
+          const SizedBox(height: 24),
 
           // Next Week Plan Action Button
           SizedBox(
