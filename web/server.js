@@ -15,17 +15,22 @@ const MIME_TYPES = {
 };
 
 const server = http.createServer((req, res) => {
-  let reqPath = req.url === '/' ? '/index.html' : req.url;
+  const parsedUrl = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
+  let pathname = parsedUrl.pathname;
+  let reqPath = pathname === '/' ? '/index.html' : pathname;
   let filePath = path.join(WEB_DIR, reqPath);
 
   fs.readFile(filePath, (err, data) => {
     if (err) {
       fs.readFile(path.join(WEB_DIR, 'index.html'), (err2, fallbackData) => {
         if (err2) {
-          res.writeHead(404, { 'Content-Type': 'text/plain' });
+          res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
           res.end('404 Not Found');
         } else {
-          res.writeHead(200, { 'Content-Type': 'text/html' });
+          res.writeHead(200, {
+            'Content-Type': 'text/html; charset=utf-8',
+            'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0'
+          });
           res.end(fallbackData);
         }
       });
@@ -33,8 +38,16 @@ const server = http.createServer((req, res) => {
     }
 
     const ext = path.extname(filePath);
-    const contentType = MIME_TYPES[ext] || 'application/octet-stream';
-    res.writeHead(200, { 'Content-Type': contentType });
+    let contentType = MIME_TYPES[ext] || 'application/octet-stream';
+    if (contentType.startsWith('text/') || contentType === 'application/javascript' || contentType === 'application/json') {
+      contentType += '; charset=utf-8';
+    }
+    res.writeHead(200, {
+      'Content-Type': contentType,
+      'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+      'Pragma': 'no-cache',
+      'Expires': '0'
+    });
     res.end(data);
   });
 });

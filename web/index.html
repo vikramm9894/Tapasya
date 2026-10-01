@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
   <div class="app-viewport">
@@ -87,6 +87,23 @@
           </div>
         </div>
 
+        <!-- AI Daily Coach Card -->
+        <div class="ai-daily-card" style="background: linear-gradient(135deg, rgba(0, 229, 255, 0.08), rgba(20, 20, 30, 0.95)); border: 1.5px solid var(--cyan-primary); border-radius: 14px; padding: 14px; margin-bottom: 16px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 20px;">🤖</span>
+              <div>
+                <span style="font-size: 11px; font-weight: 800; letter-spacing: 1px; color: var(--cyan-primary);">AI DAILY COACH</span>
+                <div style="font-size: 9px; color: var(--text-secondary);">Rule-based • Why-Aware (Offline)</div>
+              </div>
+            </div>
+            <button class="btn btn-cyan btn-sm" id="chatWithCoachTodayBtn" style="font-size: 11px; padding: 4px 10px;">Chat with Coach 💬</button>
+          </div>
+          <p id="todayAiAdvice" style="font-size: 12px; color: var(--text-primary); line-height: 1.5; margin: 0;">
+            "Jin dino sleep 7+ ghante thi, focus ~33% zyada raha. Aaj Day 12/90 par 1.4 topics/day velocity maintain karo!"
+          </p>
+        </div>
+
         <!-- 3 Non-Negotiables Section -->
         <div class="section-header">
           <div class="section-title-wrap">
@@ -162,35 +179,103 @@
           <div class="matrix-grid" id="journeyMatrixGrid"></div>
         </div>
 
-        <!-- Rule-Based Offline Insight Card -->
-        <div class="insight-card">
-          <div class="insight-badge">RULE-BASED INSIGHT</div>
-          <div class="insight-content">
-            <span class="insight-icon">🧠</span>
-            <div class="insight-text">
-              <h5>Sleep vs. Focus Correlation</h5>
-              <p>“Jin dino sleep 7+ ghante thi, focus ~33% zyada raha.” (Calculated purely on-device)</p>
+        <!-- Weekly AI Coach Analysis Card -->
+        <div class="weekly-ai-card" style="background: linear-gradient(135deg, #1A1A26, #121218); border: 1.5px solid var(--cyan-primary); border-radius: 16px; padding: 16px; margin: 16px 0;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 22px;">🧠</span>
+              <div>
+                <h4 style="margin: 0; font-size: 14px; font-weight: 800;">WEEKLY AI COACH REVIEW</h4>
+                <span style="font-size: 10px; color: var(--cyan-primary);" id="aiCoachBadge">Offline Coach (Default)</span>
+              </div>
             </div>
+            <button class="btn btn-outline btn-sm" id="regenWeeklyAiBtn" style="font-size: 10px; padding: 4px 8px;" title="Regenerate review">🔄 Refresh</button>
+          </div>
+          <div id="weeklyAiContent" style="font-size: 12px; color: var(--text-primary); line-height: 1.6; white-space: pre-line;">
+            Is hafte ka average score 82/100 raha (Day 12/90).
+            • Sabse strong: Deep Study (86%).
+            • Sabse zyada miss: Zero Sugar (45%), khaaskar Sunday ko.
+            • Jin dino sleep 7+ ghante thi, focus ~33% zyada raha.
+            Agle hafte yehi rhythm rakho. Chaho to ek habit ka target thoda badhao.
           </div>
         </div>
 
-        <!-- Adaptive Goal Card -->
-        <div class="adaptive-card">
-          <div class="adaptive-header">
-            <span class="adaptive-tag">ADAPTIVE GOAL SUGGESTION</span>
-            <span class="badge-pill">85%+ Rate</span>
+        <!-- AI Adaptive Goal Suggestions (14-Day) -->
+        <div class="ai-goals-box" style="margin-bottom: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <span style="font-size: 11px; font-weight: 800; letter-spacing: 1.2px; color: var(--text-secondary);">🎯 SMART GOAL SUGGESTIONS (14-DAY)</span>
+            <span style="font-size: 10px; color: var(--text-muted);">AI Guard: 25% max</span>
           </div>
-          <p class="adaptive-desc">
-            You've maintained <strong>90% consistency</strong> on <em>Deep Study</em> for 14 days. Ready to push your daily target from <strong>60 min</strong> to <strong>75 min</strong>?
-          </p>
-          <div class="adaptive-actions">
-            <button class="btn btn-secondary btn-sm" onclick="alert('Target kept unchanged. Keep going!')">Keep 60m</button>
-            <button class="btn btn-primary btn-sm" onclick="alert('Target updated to 75 min! Tapasya level up!')">Accept (+25%)</button>
+
+          <div id="goalSuggestionsList" style="display: flex; flex-direction: column; gap: 10px;">
+            <div class="goal-sugg-card" id="suggCard1" style="background: var(--bg-card); border: 1px solid rgba(0, 229, 255, 0.4); padding: 12px; border-radius: 12px;">
+              <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: bold; margin-bottom: 4px;">
+                <span>Deep Study / Coding</span>
+                <span style="color: var(--cyan-primary);">+25% Target</span>
+              </div>
+              <p style="font-size: 11px; color: var(--text-secondary); margin: 0 0 10px;">
+                14 din mein 88% completion! Target ko 60m se badhakar 75m karne ka best time hai.
+              </p>
+              <div style="display: flex; gap: 8px;">
+                <button class="btn btn-cyan btn-sm" id="acceptSugg1Btn">Accept (+25%)</button>
+                <button class="btn btn-outline btn-sm" id="dismissSugg1Btn">Dismiss</button>
+              </div>
+            </div>
+
+            <div class="goal-sugg-card" id="suggCard2" style="background: var(--bg-card); border: 1px solid rgba(255, 61, 0, 0.4); padding: 12px; border-radius: 12px;">
+              <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: bold; margin-bottom: 4px;">
+                <span>Zero Sugar Habit</span>
+                <span style="color: var(--orange-flame);">-25% Friction</span>
+              </div>
+              <p style="font-size: 11px; color: var(--text-secondary); margin: 0 0 10px;">
+                14 din mein 42% completion raha. Target thoda aasaan karke dobara rhythm pakdo.
+              </p>
+              <div style="display: flex; gap: 8px;">
+                <button class="btn btn-outline btn-sm" id="acceptSugg2Btn" style="color: var(--orange-flame); border-color: rgba(255,61,0,0.5);">Accept (-25%)</button>
+                <button class="btn btn-outline btn-sm" id="dismissSugg2Btn">Dismiss</button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- TAB 3: FOCUS -->
+      <!-- TAB 3: AI COACH (CHAT) -->
+      <section id="tab-coach" class="tab-pane">
+        <div class="coach-header" style="background: linear-gradient(135deg, #1A1A26, #121218); border: 1px solid var(--border-color); padding: 14px; border-radius: 14px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 38px; height: 38px; border-radius: 50%; background: rgba(0, 229, 255, 0.15); display: flex; align-items: center; justify-content: center; font-size: 20px;">🤖</div>
+            <div>
+              <div style="font-weight: 800; font-size: 15px;">Tapasya Coach</div>
+              <div style="font-size: 10px; color: var(--cyan-primary);" id="coachModeStatus">Offline Mode • Why-Aware (Zero Cloud Leak)</div>
+            </div>
+          </div>
+          <div style="display: flex; gap: 6px;">
+            <button class="btn btn-cyan btn-sm" id="coachWhyBtn" style="font-size: 11px; padding: 4px 8px;">Mera Why 💖</button>
+            <button class="btn btn-outline btn-sm" id="coachClearBtn" style="font-size: 11px; padding: 4px 8px;" title="Clear Chat History">🗑️</button>
+          </div>
+        </div>
+
+        <!-- Chat Stream -->
+        <div class="chat-container" id="chatStream" style="height: 340px; overflow-y: auto; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 10px;">
+          <!-- Dynamically populated in app.js -->
+        </div>
+
+        <!-- Quick Prompt Chips -->
+        <div class="quick-prompts-bar" style="display: flex; gap: 6px; overflow-x: auto; padding: 8px 0; margin-top: 6px;">
+          <button class="prompt-chip" id="chipTired">⚡ Thak gaya hoon</button>
+          <button class="prompt-chip" id="chipStreak">🔥 Streak toot gayi toh?</button>
+          <button class="prompt-chip" id="chipPlan">🎯 Kal ka plan</button>
+          <button class="prompt-chip" id="chipWhy">🛡️ Kyun shuru kiya?</button>
+        </div>
+
+        <!-- Chat Input Bar -->
+        <div class="chat-input-bar" style="display: flex; gap: 8px; margin-top: 6px;">
+          <input type="text" id="chatInputText" placeholder="Kuch bhi bolo... (e.g. Aaj padhai nahi ho rahi)" style="flex: 1; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px 14px; color: #fff; font-size: 13px;">
+          <button class="btn btn-primary" id="sendChatBtn" style="padding: 12px 16px;">Send</button>
+        </div>
+      </section>
+
+      <!-- TAB 4: FOCUS -->
       <section id="tab-focus" class="tab-pane">
         <div class="page-title-wrap">
           <h2 class="page-title">Deep Work & Study</h2>
@@ -371,6 +456,10 @@
         <span class="nav-icon">📊</span>
         <span class="nav-label">Progress</span>
       </button>
+      <button class="nav-item coach-nav-item" id="navCoachBtn" data-tab="tab-coach" style="color: var(--cyan-primary);">
+        <span class="nav-icon" style="filter: drop-shadow(0 0 6px var(--cyan-glow));">🤖</span>
+        <span class="nav-label" style="font-weight: 800;">AI Coach</span>
+      </button>
       <button class="nav-item" data-tab="tab-focus">
         <span class="nav-icon">⏳</span>
         <span class="nav-label">Focus</span>
@@ -450,6 +539,9 @@
           </div>
         </div>
         <button class="btn btn-primary btn-block mt-3" onclick="alert('Recap card copied to clipboard as shareable snapshot!')">Share Image</button>
+      </div>
+    </div>
+
     <!-- Create Habit Modal -->
     <div class="modal-backdrop" id="addHabitModal">
       <div class="modal-sheet">
@@ -734,6 +826,34 @@
             <input type="checkbox" id="biometricToggle" checked style="width: 18px; height: 18px; accent-color: var(--cyan-primary);">
           </div>
 
+          <div style="font-size: 11px; font-weight: 800; letter-spacing: 1px; color: var(--text-secondary); margin-bottom: 8px;">AI COACH & PRIVACY CONSENT:</div>
+          <div style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 12px; border-radius: 12px; margin-bottom: 16px; display: flex; flex-direction: column; gap: 8px;">
+            <label style="display: flex; align-items: flex-start; gap: 8px; font-size: 13px; cursor: pointer;">
+              <input type="radio" name="aiConsentRadio" value="off" checked style="margin-top: 3px; accent-color: var(--cyan-primary);">
+              <div>
+                <strong>Offline (Default)</strong>
+                <div style="font-size: 11px; color: var(--text-secondary);">Kuch bhi phone se bahar nahi jata. Rule-based coach chalta hai.</div>
+              </div>
+            </label>
+            <label style="display: flex; align-items: flex-start; gap: 8px; font-size: 13px; cursor: pointer;">
+              <input type="radio" name="aiConsentRadio" value="aggregates" style="margin-top: 3px; accent-color: var(--cyan-primary);">
+              <div>
+                <strong>AI — Sirf Numbers</strong>
+                <div style="font-size: 11px; color: var(--text-secondary);">Score, completion %, sleep, mood/focus jaate hain. Journal nahi.</div>
+              </div>
+            </label>
+            <label style="display: flex; align-items: flex-start; gap: 8px; font-size: 13px; cursor: pointer;">
+              <input type="radio" name="aiConsentRadio" value="aggregatesAndJournal" style="margin-top: 3px; accent-color: var(--cyan-primary);">
+              <div>
+                <strong>AI — Numbers + Journal</strong>
+                <div style="font-size: 11px; color: var(--text-secondary);">Upar ka sab + Why text aur 3-line journal (email/phone redacted). Day-90 letter kabhi nahi.</div>
+              </div>
+            </label>
+            <button class="btn btn-outline btn-sm mt-2" id="previewAiPayloadBtn" style="font-size: 11px; padding: 6px 10px;">
+              🔍 Kya bheja jata hai? (JSON Preview)
+            </button>
+          </div>
+
           <div style="font-size: 11px; font-weight: 800; letter-spacing: 1px; color: var(--text-secondary); margin-bottom: 8px;">DAILY SCHEDULE:</div>
           <div style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 12px; border-radius: 12px; margin-bottom: 16px; display: flex; flex-direction: column; gap: 10px;">
             <label style="display: flex; justify-content: space-between; align-items: center; font-size: 13px;">
@@ -782,6 +902,6 @@
 
   </div>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=3"></script>
 </body>
 </html>

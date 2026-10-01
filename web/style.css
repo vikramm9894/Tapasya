@@ -523,7 +523,47 @@ input:checked + .slider:before {
   gap: 4px;
   cursor: pointer;
   transition: all 0.2s;
-  padding: 8px 16px;
+  padding: 6px 10px;
+}
+
+.prompt-chip {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 20px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.prompt-chip:hover {
+  background: rgba(0, 229, 255, 0.15);
+  color: var(--cyan-primary);
+  border-color: var(--cyan-primary);
+}
+.chat-bubble-user {
+  align-self: flex-end;
+  background: rgba(0, 229, 255, 0.18);
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  color: #fff;
+  border-radius: 14px 14px 2px 14px;
+  padding: 10px 14px;
+  max-width: 82%;
+  font-size: 13px;
+  line-height: 1.4;
+}
+.chat-bubble-coach {
+  align-self: flex-start;
+  background: #1C1C26;
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  border-radius: 14px 14px 14px 2px;
+  padding: 10px 14px;
+  max-width: 85%;
+  font-size: 13px;
+  line-height: 1.5;
 }
 
 .nav-icon {

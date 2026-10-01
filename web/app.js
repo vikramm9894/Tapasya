@@ -554,6 +554,217 @@ if (biometricToggle) {
   });
 }
 
+// --- AI COACH & CHAT LOGIC ---
+const chatWithCoachTodayBtn = document.getElementById('chatWithCoachTodayBtn');
+if (chatWithCoachTodayBtn) {
+  chatWithCoachTodayBtn.addEventListener('click', () => {
+    document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    const coachNav = document.getElementById('navCoachBtn');
+    if (coachNav) coachNav.classList.add('active');
+    const coachPane = document.getElementById('tab-coach');
+    if (coachPane) coachPane.classList.add('active');
+  });
+}
+
+const chatHistory = [
+  {
+    role: 'assistant',
+    text: 'Namaste Vikram! Main tumhara Tapasya AI Coach hoon. Roz thoda, 90 din tak. 🙏\n\nAaj Day 12/90 par 7-din ki unbroken consistency chal rahi hai! Padhai ya discipline mein koi atkaav ho to bejhijhak bolo.'
+  }
+];
+
+function renderChatStream() {
+  const container = document.getElementById('chatStream');
+  if (!container) return;
+  container.innerHTML = '';
+  chatHistory.forEach(msg => {
+    const bubble = document.createElement('div');
+    bubble.className = msg.role === 'user' ? 'chat-bubble-user' : 'chat-bubble-coach';
+    bubble.style.whiteSpace = 'pre-line';
+    bubble.textContent = msg.text;
+    container.appendChild(bubble);
+  });
+  container.scrollTop = container.scrollHeight;
+}
+
+function handleUserChat(userText) {
+  const t = userText.trim();
+  if (!t) return;
+
+  chatHistory.push({ role: 'user', text: t });
+  renderChatStream();
+
+  // Pure rule-based & AI Guard logic from offline_ai_provider.dart
+  const lower = t.toLowerCase();
+  let reply = '';
+
+  // 1. Crisis Check (tele-manas safeguard)
+  if (lower.match(/(suicide|mar jaun|jeena nahi|end my life|self harm|marna chahta)/)) {
+    reply = 'Tumne jo likha woh bahut bhaari hai, aur main use halke mein nahi le raha. Please abhi kisi bharosemand insaan se baat karo. Tele-MANAS (14416) 24x7 free helpline hai. Agar turant khatra lag raha ho to 112 par call karo. Tapasya ka streak is waqt zaroori nahi hai - tum zaroori ho.';
+  }
+  // 2. Tired / Demotivated / Give up
+  else if (lower.match(/(thak|tired|mann nahi|bore|demotiv|nahi ho raha|give up|chhod)/)) {
+    reply = 'Samajh sakta hoon. Har din 100% zaroori nahi hota - aaj sirf Bare Minimum switch on karo (50% XP), streak bachi rahegi! Yaad karo tumne Day 1 par kya likha tha: "Distraction band karke goal achieve karna hai." Ek chhota step uthao.';
+  }
+  // 3. Streak Anxiety / Missed day
+  else if (lower.match(/(miss|toot|chhut|streak|dar)/)) {
+    reply = `Streak abhi ${state.streak} din ki safe hai! Ek miss se sab khatam nahi hota - freeze aur Phoenix Recovery isi liye hain. Agar kabhi miss ho bhi jaye toh 2 consecutive din karke streak wapas restore ho jati hai.`;
+  }
+  // 4. Daily Plan / Study Guidance
+  else if (lower.match(/(plan|kya karu|kaise|help|padhai|study)/)) {
+    reply = 'Simple rule: Subah sabse pehle apne Top 3 Non-Negotiables chun lo. Pehla 25-min ka Pomodoro block sabse easy topic par lagao taaki momentum ban jaye. Baaki din apne aap follow hoga!';
+  }
+  // 5. Why query
+  else if (lower.match(/(why|kyun|anchor|letter)/)) {
+    reply = 'Tumhara Day 1 "Why" Anchor hai:\n\n"Distraction band karke goal achieve karna hai."\n\nDay-90 Locked Letter: "Day 90 Vikram: Agar ye padh rahe ho to tumne kar dikhaya!"';
+  }
+  // Default Intelligent Coach Reply
+  else {
+    reply = 'Main yahan hoon. Offline mode mein tumhara data 100% secure aur device par rehta hai. Aaj Day 12 hai — sabse pehle apne 3 Non-Negotiables tick karo, score automatically badhega!';
+  }
+
+  setTimeout(() => {
+    chatHistory.push({ role: 'assistant', text: reply });
+    renderChatStream();
+  }, 350);
+}
+
+const chatInput = document.getElementById('chatInputText');
+const sendChatBtn = document.getElementById('sendChatBtn');
+
+if (sendChatBtn && chatInput) {
+  sendChatBtn.addEventListener('click', () => {
+    handleUserChat(chatInput.value);
+    chatInput.value = '';
+  });
+  chatInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      handleUserChat(chatInput.value);
+      chatInput.value = '';
+    }
+  });
+}
+
+// Quick Prompt Chips
+const chipTired = document.getElementById('chipTired');
+if (chipTired) chipTired.addEventListener('click', () => handleUserChat('Thak gaya hoon, mann nahi kar raha'));
+const chipStreak = document.getElementById('chipStreak');
+if (chipStreak) chipStreak.addEventListener('click', () => handleUserChat('Streak toot gayi toh kya hoga?'));
+const chipPlan = document.getElementById('chipPlan');
+if (chipPlan) chipPlan.addEventListener('click', () => handleUserChat('Kal ke liye aasan plan batao'));
+const chipWhy = document.getElementById('chipWhy');
+if (chipWhy) chipWhy.addEventListener('click', () => handleUserChat('Mera Why anchor yaad dilao'));
+
+const coachWhyBtn = document.getElementById('coachWhyBtn');
+if (coachWhyBtn) {
+  coachWhyBtn.addEventListener('click', () => {
+    alert('💖 Tumhara Why Anchor (Day 1 se locked):\n\n"Distraction band karke goal achieve karna hai."\n\nDay 90 Letter: "Day 90 Vikram: Agar ye padh rahe ho to tumne kar dikhaya!"');
+  });
+}
+
+const coachClearBtn = document.getElementById('coachClearBtn');
+if (coachClearBtn) {
+  coachClearBtn.addEventListener('click', () => {
+    chatHistory.length = 0;
+    chatHistory.push({
+      role: 'assistant',
+      text: 'Chat history cleared. Main yahan hoon, bolo kya chal raha hai?'
+    });
+    renderChatStream();
+    showToast('Chat history cleared.');
+  });
+}
+
+// Smart Goal Suggestions Handlers
+const acceptSugg1Btn = document.getElementById('acceptSugg1Btn');
+if (acceptSugg1Btn) {
+  acceptSugg1Btn.addEventListener('click', () => {
+    state.nonNegotiables[0].title = 'Deep Study: Data Structures (75m Target)';
+    acceptSugg1Btn.textContent = 'Accepted ✓';
+    acceptSugg1Btn.disabled = true;
+    showToast('🎯 Deep Study target updated to 75m (+25%)! Level Up! 🔥');
+    updateUI();
+  });
+}
+const dismissSugg1Btn = document.getElementById('dismissSugg1Btn');
+if (dismissSugg1Btn) {
+  dismissSugg1Btn.addEventListener('click', () => {
+    const card = document.getElementById('suggCard1');
+    if (card) card.style.display = 'none';
+    showToast('Suggestion dismissed.');
+  });
+}
+
+const acceptSugg2Btn = document.getElementById('acceptSugg2Btn');
+if (acceptSugg2Btn) {
+  acceptSugg2Btn.addEventListener('click', () => {
+    acceptSugg2Btn.textContent = 'Accepted ✓';
+    acceptSugg2Btn.disabled = true;
+    showToast('🛡️ Zero Sugar target reduced to ease friction (-25%).');
+    updateUI();
+  });
+}
+const dismissSugg2Btn = document.getElementById('dismissSugg2Btn');
+if (dismissSugg2Btn) {
+  dismissSugg2Btn.addEventListener('click', () => {
+    const card = document.getElementById('suggCard2');
+    if (card) card.style.display = 'none';
+    showToast('Suggestion dismissed.');
+  });
+}
+
+// Weekly AI Review Regenerate
+const regenWeeklyAiBtn = document.getElementById('regenWeeklyAiBtn');
+if (regenWeeklyAiBtn) {
+  regenWeeklyAiBtn.addEventListener('click', () => {
+    const el = document.getElementById('weeklyAiContent');
+    if (el) {
+      el.textContent = `Is hafte ka average score ${calculateDailyScore()}/100 raha (Day 12/90).\n• Sabse strong: Deep Study (88% rate).\n• Sabse zyada miss: Zero Sugar, Saturday ko.\n• Sleep 7h+ correlation: Focus 33% high raha.\n• AI Sujhav: Agle hafte 1 habit par fixed cue rakho!`;
+    }
+    showToast('🔄 Weekly AI Review refreshed on-device!');
+  });
+}
+
+// AI Consent Preview
+const previewAiPayloadBtn = document.getElementById('previewAiPayloadBtn');
+if (previewAiPayloadBtn) {
+  previewAiPayloadBtn.addEventListener('click', () => {
+    const payload = {
+      feature: 'weeklyCoach',
+      consent: 'aggregates',
+      journey: { day: state.dayNumber, length: state.totalDays, streak: state.streak, level: 5 },
+      days: [
+        { date: '2026-10-01', weekday: 'Thu', mode: 'normal', score: 82, mood: 4, energy: 3, focus: 4, sleep: 7.5 }
+      ],
+      habits: [
+        { name: 'Deep Study', rate14: 0.88 },
+        { name: 'Workout', rate14: 0.75 },
+        { name: 'Read Book', rate14: 0.62 }
+      ]
+    };
+    alert('🔍 Cloud Payload Preview (Sanitized & Redacted):\n\n' + JSON.stringify(payload, null, 2));
+  });
+}
+
+// Radio Consent Listeners
+document.querySelectorAll('input[name="aiConsentRadio"]').forEach(r => {
+  r.addEventListener('change', (e) => {
+    const val = e.target.value;
+    const badge = document.getElementById('aiCoachBadge');
+    const status = document.getElementById('coachModeStatus');
+    if (val === 'off') {
+      if (badge) badge.textContent = 'Offline Coach (Default)';
+      if (status) status.textContent = 'Offline Mode • Why-Aware (Zero Cloud Leak)';
+      showToast('🔒 AI set to 100% Offline Mode');
+    } else {
+      if (badge) badge.textContent = 'AI (Cloud Opt-In)';
+      if (status) status.textContent = 'Cloud Opt-In • Privacy Guardrail Active';
+      showToast('🌐 AI Cloud Opt-In Enabled');
+    }
+  });
+});
+
 document.getElementById('currentDateDisplay').textContent = new Date().toLocaleDateString('en-US', {
   weekday: 'short',
   month: 'short',
@@ -564,4 +775,6 @@ updateUI();
 updateTimerDisplay();
 updateExamModeUI();
 updateBossUI();
+renderChatStream();
+
 
