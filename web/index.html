@@ -86,7 +86,10 @@
             <span class="section-icon">✨</span>
             <h3 class="section-heading">BONUS HABITS</h3>
           </div>
-          <span class="progress-ratio" id="bonusProgressText">0/2</span>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <button class="btn btn-cyan btn-sm" id="openAddHabitBtn" style="padding: 3px 8px; font-size: 10px;">+ Add Habit</button>
+            <span class="progress-ratio" id="bonusProgressText">0/2</span>
+          </div>
         </div>
 
         <div class="habits-list" id="bonusHabitsList"></div>
@@ -309,6 +312,10 @@
         </div>
 
         <div class="settings-box mt-4">
+          <div class="settings-item clickable" id="openOnboardingBtn">
+            <span>🚀 Run 4-Step Onboarding Wizard</span>
+            <span class="chevron">›</span>
+          </div>
           <div class="settings-item">
             <span>Biometric App Lock</span>
             <span class="badge-pill active">Enabled</span>
@@ -415,6 +422,128 @@
           </div>
         </div>
         <button class="btn btn-primary btn-block mt-3" onclick="alert('Recap card copied to clipboard as shareable snapshot!')">Share Image</button>
+    <!-- Create Habit Modal -->
+    <div class="modal-backdrop" id="addHabitModal">
+      <div class="modal-sheet">
+        <div class="modal-handle"></div>
+        <div class="modal-header">
+          <h3>Create New Habit</h3>
+          <button class="close-btn" id="closeAddHabitBtn">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="input-group">
+            <label>Habit Name:</label>
+            <input type="text" id="newHabitName" placeholder="e.g. Operating Systems Revision">
+          </div>
+
+          <div class="input-group mt-3">
+            <label>Category:</label>
+            <select id="newHabitCategory" class="styled-select" style="padding: 8px;">
+              <option value="Study">Study</option>
+              <option value="Fitness">Fitness</option>
+              <option value="Mindset">Mindset</option>
+              <option value="Health">Health</option>
+              <option value="Work">Work</option>
+            </select>
+          </div>
+
+          <div class="input-group mt-3">
+            <label>If-Then Cue (Habit Stacking):</label>
+            <input type="text" id="newHabitCue" placeholder="e.g. Chai ke baad 20 min desk par...">
+          </div>
+
+          <div style="display: flex; gap: 12px; margin-top: 12px;">
+            <div class="input-group" style="flex: 1;">
+              <label>Target Goal:</label>
+              <input type="number" id="newHabitTarget" value="30">
+            </div>
+            <div class="input-group" style="flex: 1;">
+              <label style="color: var(--orange-warning);">Bare Min Goal:</label>
+              <input type="number" id="newHabitMin" value="10">
+            </div>
+          </div>
+
+          <div class="input-group mt-3">
+            <label>Difficulty / XP:</label>
+            <select id="newHabitDifficulty" class="styled-select" style="padding: 8px;">
+              <option value="1">Easy (10 XP)</option>
+              <option value="2" selected>Medium (20 XP)</option>
+              <option value="3">Hard (30 XP)</option>
+            </select>
+          </div>
+
+          <button class="btn btn-primary btn-block mt-4" id="saveNewHabitBtn">
+            Save Habit 🔥
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Onboarding Flow Simulator Modal -->
+    <div class="modal-backdrop" id="onboardingModal">
+      <div class="modal-sheet" style="max-height: 85vh; overflow-y: auto;">
+        <div class="modal-handle"></div>
+        <div class="modal-header">
+          <h3 id="obStepHeading">Step 1: ॐ Tapasya</h3>
+          <button class="close-btn" id="closeOnboardingBtn">✕</button>
+        </div>
+        
+        <div id="obStep1">
+          <div style="text-align: center; padding: 20px 0;">
+            <div style="font-size: 42px; color: var(--cyan-primary); text-shadow: 0 0 20px var(--cyan-glow);">ॐ</div>
+            <h2 style="font-weight: 900; letter-spacing: 3px; margin: 10px 0 4px;">TAPASYA</h2>
+            <p style="color: var(--gold-accent); font-weight: 600;">Roz thoda. 90 din tak.</p>
+            <p style="font-size: 13px; color: var(--text-secondary); margin-top: 16px; line-height: 1.5;">
+              Winter Arc trend khatam ho jayega, par Tapasya se discipline life-long rahega. No fake grind, smart streak recovery.
+            </p>
+          </div>
+          <button class="btn btn-primary btn-block" onclick="goToObStep(2)">Continue to "Why" Anchor →</button>
+        </div>
+
+        <div id="obStep2" style="display: none;">
+          <h4 style="margin-bottom: 6px;">Kyun shuru kar rahe ho?</h4>
+          <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">Jab motivation giregi, ye dialog aapko bachayega.</p>
+          <div class="input-group">
+            <label>Your "Why" Statement:</label>
+            <input type="text" id="obWhyInput" value="Distraction band karke goal achieve karna hai.">
+          </div>
+          <div class="input-group mt-3">
+            <label>Day-90 Locked Letter:</label>
+            <input type="text" id="obLetterInput" value="Day 90 Vikram: Agar ye padh rahe ho to tumne kar dikhaya!">
+          </div>
+          <button class="btn btn-primary btn-block mt-4" onclick="goToObStep(3)">Next: Habits Setup →</button>
+        </div>
+
+        <div id="obStep3" style="display: none;">
+          <h4 style="margin-bottom: 6px;">3 se 5 Core Habits</h4>
+          <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">Roz consistency ke liye non-negotiables chuno.</p>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <label style="background: var(--bg-card); padding: 10px; border-radius: 8px; display: flex; align-items: center; gap: 8px; font-size: 13px;">
+              <input type="checkbox" checked disabled> <strong>Deep Study (60m)</strong>
+            </label>
+            <label style="background: var(--bg-card); padding: 10px; border-radius: 8px; display: flex; align-items: center; gap: 8px; font-size: 13px;">
+              <input type="checkbox" checked disabled> <strong>Workout / Running (45m)</strong>
+            </label>
+            <label style="background: var(--bg-card); padding: 10px; border-radius: 8px; display: flex; align-items: center; gap: 8px; font-size: 13px;">
+              <input type="checkbox" checked disabled> <strong>Read 15 Pages Book</strong>
+            </label>
+          </div>
+          <button class="btn btn-primary btn-block mt-4" onclick="goToObStep(4)">Next: Commitment →</button>
+        </div>
+
+        <div id="obStep4" style="display: none;">
+          <h4 style="margin-bottom: 6px;">Select Journey Length</h4>
+          <div style="display: flex; gap: 8px; margin: 16px 0;">
+            <div style="flex: 1; border: 1px solid var(--border-color); padding: 16px; border-radius: 12px; text-align: center;">
+              <h3>30</h3><span style="font-size: 10px; color: var(--text-muted);">DAYS</span>
+            </div>
+            <div style="flex: 1; border: 2px solid var(--cyan-primary); padding: 16px; border-radius: 12px; text-align: center; background: rgba(0, 229, 255, 0.1);">
+              <h3 style="color: var(--cyan-primary);">90</h3><span style="font-size: 10px; font-weight: bold; color: var(--cyan-primary);">DAYS (RECOMMENDED)</span>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-block mt-3" id="finishOnboardingBtn">Commit to 90 Days Tapasya 🔥</button>
+        </div>
+
       </div>
     </div>
 

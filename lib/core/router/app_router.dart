@@ -1,19 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../features/habits/presentation/create_habit_screen.dart';
 import '../../features/home/presentation/today_screen.dart';
+import '../../features/onboarding/presentation/onboarding_screen.dart';
 import '../../features/progress/presentation/progress_screen.dart';
 import '../../features/focus/presentation/focus_screen.dart';
 import '../../features/profile/presentation/profile_screen.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
 
-/// AppRouter managing the 4-tab shell navigation and deep link targets.
+/// AppRouter managing the 4-tab shell navigation, onboarding, and modal routes.
 class AppRouter {
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
     initialLocation: '/today',
     routes: [
+      // Onboarding Route
+      GoRoute(
+        path: '/onboarding',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const OnboardingScreen(),
+      ),
+      // Create Habit Route
+      GoRoute(
+        path: '/create-habit',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const CreateHabitScreen(),
+      ),
+      // 4-Tab Shell Route
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
           return ScaffoldWithBottomNavBar(navigationShell: navigationShell);

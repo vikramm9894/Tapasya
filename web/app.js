@@ -272,6 +272,65 @@ const recapModal = document.getElementById('recapModal');
 document.getElementById('viewRecapBtn').addEventListener('click', () => recapModal.classList.add('show'));
 document.getElementById('closeRecapBtn').addEventListener('click', () => recapModal.classList.remove('show'));
 
+// Create Habit Modal Handlers
+const addHabitModal = document.getElementById('addHabitModal');
+document.getElementById('openAddHabitBtn').addEventListener('click', () => addHabitModal.classList.add('show'));
+document.getElementById('closeAddHabitBtn').addEventListener('click', () => addHabitModal.classList.remove('show'));
+
+document.getElementById('saveNewHabitBtn').addEventListener('click', () => {
+  const name = document.getElementById('newHabitName').value.trim();
+  if (!name) {
+    alert('Please enter a habit name');
+    return;
+  }
+  const category = document.getElementById('newHabitCategory').value;
+  const cue = document.getElementById('newHabitCue').value.trim() || 'Daily habit';
+  const difficulty = parseInt(document.getElementById('newHabitDifficulty').value, 10);
+
+  state.bonusHabits.push({
+    id: 'h_' + Date.now(),
+    title: name,
+    cue: cue,
+    difficulty: difficulty,
+    completed: false
+  });
+
+  addHabitModal.classList.remove('show');
+  document.getElementById('newHabitName').value = '';
+  document.getElementById('newHabitCue').value = '';
+  showToast(`New habit "${name}" created! 🔥`);
+  updateUI();
+});
+
+// Onboarding Modal Handlers
+const onboardingModal = document.getElementById('onboardingModal');
+document.getElementById('openOnboardingBtn').addEventListener('click', () => {
+  goToObStep(1);
+  onboardingModal.classList.add('show');
+});
+document.getElementById('closeOnboardingBtn').addEventListener('click', () => onboardingModal.classList.remove('show'));
+
+window.goToObStep = function(step) {
+  document.getElementById('obStep1').style.display = 'none';
+  document.getElementById('obStep2').style.display = 'none';
+  document.getElementById('obStep3').style.display = 'none';
+  document.getElementById('obStep4').style.display = 'none';
+
+  document.getElementById('obStep' + step).style.display = 'block';
+  const headings = {
+    1: 'Step 1: ॐ Tapasya Philosophy',
+    2: 'Step 2: "Why" Anchor & Letter',
+    3: 'Step 3: Core 3-5 Habits',
+    4: 'Step 4: Journey Commitment'
+  };
+  document.getElementById('obStepHeading').textContent = headings[step];
+};
+
+document.getElementById('finishOnboardingBtn').addEventListener('click', () => {
+  onboardingModal.classList.remove('show');
+  showToast('90-Day Tapasya Activated! Welcome, Vikram! 🔥');
+});
+
 document.getElementById('currentDateDisplay').textContent = new Date().toLocaleDateString('en-US', {
   weekday: 'short',
   month: 'short',
