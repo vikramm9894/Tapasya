@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Tapasya (तपस्या) — 90-Day Consistency App</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-viewport">
+    
+    <!-- Top App Bar -->
+    <header class="app-header">
+      <div class="header-branding">
+        <div class="brand-badge">
+          <span class="brand-glyph">ॐ</span>
+          <span class="brand-title">TAPASYA</span>
+        </div>
+        <div class="header-date" id="currentDateDisplay">Today</div>
+      </div>
+      <div class="header-stats">
+        <div class="stat-pill streak-pill" title="Current Consistency Streak">
+          <span class="flame-icon">🔥</span>
+          <span id="streakCount">7</span>
+          <span class="stat-unit">D</span>
+        </div>
+        <div class="stat-pill xp-pill" title="Level and XP">
+          <span class="bolt-icon">⚡</span>
+          <span id="headerXp">2,450</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Dynamic Tab Content -->
+    <main class="app-content">
+
+      <!-- TAB 1: TODAY -->
+      <section id="tab-today" class="tab-pane active">
+        <!-- Hero Mission Card -->
+        <div class="hero-card">
+          <div class="hero-info">
+            <span class="hero-tag">DAY <span id="currentDayNum">12</span> OF 90</span>
+            <h2 class="hero-title" id="modeTitle">Daily Mission</h2>
+            <p class="hero-tagline">Roz thoda. 90 din tak.</p>
+            
+            <div class="bare-min-toggle-wrap">
+              <label class="switch-label">
+                <span class="switch-text">Bare Minimum</span>
+                <input type="checkbox" id="bareMinToggle">
+                <span class="slider round"></span>
+              </label>
+              <span class="badge-pill" id="modeBadge">50% XP</span>
+            </div>
+          </div>
+
+          <!-- Dynamic SVG Score Ring -->
+          <div class="score-ring-wrap" title="Calculated Daily Score">
+            <svg class="score-svg" viewBox="0 0 100 100">
+              <circle class="score-bg" cx="50" cy="50" r="42"></circle>
+              <circle class="score-bar" id="scoreBar" cx="50" cy="50" r="42"></circle>
+            </svg>
+            <div class="score-content">
+              <span class="score-number" id="scoreDisplay">0</span>
+              <span class="score-label">SCORE</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 Non-Negotiables Section -->
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <span class="section-icon">🛡️</span>
+            <h3 class="section-heading">NON-NEGOTIABLES (TOP 3)</h3>
+          </div>
+          <span class="progress-ratio" id="nnProgressText">0/3</span>
+        </div>
+
+        <div class="habits-list" id="nonNegotiablesList"></div>
+
+        <!-- Bonus Habits Section -->
+        <div class="section-header mt-4">
+          <div class="section-title-wrap">
+            <span class="section-icon">✨</span>
+            <h3 class="section-heading">BONUS HABITS</h3>
+          </div>
+          <span class="progress-ratio" id="bonusProgressText">0/2</span>
+        </div>
+
+        <div class="habits-list" id="bonusHabitsList"></div>
+
+        <!-- Night Review Action Banner -->
+        <div class="night-review-banner" id="nightReviewBanner">
+          <div class="banner-icon-box">🌙</div>
+          <div class="banner-text">
+            <h4 id="reviewTitle">Evening Reflection & Lock-in</h4>
+            <p id="reviewSub">Log sleep, mood, and win to get +10% daily score bonus.</p>
+          </div>
+          <button class="btn btn-outline" id="openReviewBtn">Review</button>
+        </div>
+      </section>
+
+      <!-- TAB 2: PROGRESS -->
+      <section id="tab-progress" class="tab-pane">
+        <div class="page-title-wrap">
+          <h2 class="page-title">Consistency Analytics</h2>
+          <span class="page-subtitle">Track your 90-day unbroken trajectory</span>
+        </div>
+
+        <!-- Weekly Summary Metrics -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <span class="metric-label">Completion</span>
+            <span class="metric-val text-cyan" id="metricCompletion">86%</span>
+            <span class="metric-sub">Past 14 days</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-label">Avg Daily Score</span>
+            <span class="metric-val text-gold" id="metricScore">82/100</span>
+            <span class="metric-sub">High Discipline</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-label">Freezes Left</span>
+            <span class="metric-val text-blue">2/2</span>
+            <span class="metric-sub">October 2026</span>
+          </div>
+        </div>
+
+        <!-- 90-Day Journey Matrix Heatmap -->
+        <div class="matrix-card">
+          <div class="matrix-header">
+            <h4>90-DAY JOURNEY MATRIX</h4>
+            <span class="matrix-legend">
+              <span class="legend-dot done"></span> Done
+              <span class="legend-dot today"></span> Today
+              <span class="legend-dot pending"></span> Pending
+            </span>
+          </div>
+          <div class="matrix-grid" id="journeyMatrixGrid"></div>
+        </div>
+
+        <!-- Rule-Based Offline Insight Card -->
+        <div class="insight-card">
+          <div class="insight-badge">RULE-BASED INSIGHT</div>
+          <div class="insight-content">
+            <span class="insight-icon">🧠</span>
+            <div class="insight-text">
+              <h5>Sleep vs. Focus Correlation</h5>
+              <p>“Jin dino sleep 7+ ghante thi, focus ~33% zyada raha.” (Calculated purely on-device)</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Adaptive Goal Card -->
+        <div class="adaptive-card">
+          <div class="adaptive-header">
+            <span class="adaptive-tag">ADAPTIVE GOAL SUGGESTION</span>
+            <span class="badge-pill">85%+ Rate</span>
+          </div>
+          <p class="adaptive-desc">
+            You've maintained <strong>90% consistency</strong> on <em>Deep Study</em> for 14 days. Ready to push your daily target from <strong>60 min</strong> to <strong>75 min</strong>?
+          </p>
+          <div class="adaptive-actions">
+            <button class="btn btn-secondary btn-sm" onclick="alert('Target kept unchanged. Keep going!')">Keep 60m</button>
+            <button class="btn btn-primary btn-sm" onclick="alert('Target updated to 75 min! Tapasya level up!')">Accept (+25%)</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: FOCUS -->
+      <section id="tab-focus" class="tab-pane">
+        <div class="page-title-wrap">
+          <h2 class="page-title">Deep Work & Study</h2>
+          <span class="page-subtitle">Auto-logs into your consistency habits</span>
+        </div>
+
+        <div class="focus-timer-card">
+          <div class="subject-select-wrap">
+            <label for="focusSubjectSelect">Subject / Module:</label>
+            <select id="focusSubjectSelect" class="styled-select">
+              <option value="Data Structures & Algorithms">Data Structures & Algorithms</option>
+              <option value="System Design">System Design</option>
+              <option value="Mathematics">Mathematics</option>
+              <option value="Deep Reading">Deep Reading</option>
+            </select>
+          </div>
+
+          <div class="timer-dial-container">
+            <svg class="timer-dial-svg" viewBox="0 0 200 200">
+              <circle class="dial-bg" cx="100" cy="100" r="88"></circle>
+              <circle class="dial-bar" id="timerDialBar" cx="100" cy="100" r="88"></circle>
+            </svg>
+            <div class="dial-text">
+              <span class="timer-digits" id="timerDigits">25:00</span>
+              <span class="timer-state" id="timerStateLabel">READY</span>
+            </div>
+          </div>
+
+          <div class="timer-controls">
+            <button class="btn-round-control" id="resetTimerBtn" title="Reset Session">↺</button>
+            <button class="btn btn-primary btn-lg" id="toggleTimerBtn">Start Focus</button>
+          </div>
+        </div>
+
+        <!-- Exam Mode Preview Card -->
+        <div class="exam-mode-card">
+          <div class="exam-header">
+            <div class="exam-title-box">
+              <span class="exam-badge">EXAM MODE</span>
+              <h4>Semester Final Exam</h4>
+            </div>
+            <div class="countdown-box">
+              <span class="countdown-days">14</span>
+              <span class="countdown-label">DAYS LEFT</span>
+            </div>
+          </div>
+          <div class="exam-progress-bar-wrap">
+            <div class="exam-progress-fill" style="width: 65%;"></div>
+          </div>
+          <div class="exam-stats">
+            <span>Topics Done: <strong>26/40</strong></span>
+            <span>Required Velocity: <strong>1.0 topic/day</strong></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 4: ME -->
+      <section id="tab-me" class="tab-pane">
+        <div class="page-title-wrap">
+          <h2 class="page-title">Identity & Tapasvi Level</h2>
+          <span class="page-subtitle">Your character progression</span>
+        </div>
+
+        <div class="level-card">
+          <div class="level-card-top">
+            <div class="level-badge-wrap">
+              <span class="level-number-tag">LVL <span id="profileLvlNum">5</span></span>
+              <h3 class="level-title-name" id="profileLvlTitle">Ice Walker</h3>
+            </div>
+            <div class="level-insignia">🎖️</div>
+          </div>
+
+          <div class="level-bar-track">
+            <div class="level-bar-fill" id="profileXpFill" style="width: 65%;"></div>
+          </div>
+
+          <div class="level-stats-row">
+            <span><strong id="profileCurrentXp">2,450</strong> XP accumulated</span>
+            <span id="profileNeedXp">650 XP to Level 6</span>
+          </div>
+        </div>
+
+        <div class="recap-cta-card">
+          <div class="recap-content">
+            <span class="recap-icon">📸</span>
+            <div>
+              <h4>Season Recap Card (30-Day Milestone)</h4>
+              <p>Generate a shareable, verified badge image for your progress.</p>
+            </div>
+          </div>
+          <button class="btn btn-cyan btn-sm" id="viewRecapBtn">View Recap</button>
+        </div>
+
+        <div class="section-header mt-4">
+          <div class="section-title-wrap">
+            <span class="section-icon">🏆</span>
+            <h3 class="section-heading">BEHAVIORAL ACHIEVEMENTS</h3>
+          </div>
+        </div>
+
+        <div class="achievements-list">
+          <div class="achievement-item unlocked">
+            <div class="ach-icon">🔥</div>
+            <div class="ach-info">
+              <h5>7-Day Unbroken Streak</h5>
+              <p>Conquered the first critical week of Tapasya.</p>
+            </div>
+            <span class="ach-check">✓</span>
+          </div>
+
+          <div class="achievement-item unlocked">
+            <div class="ach-icon">🦅</div>
+            <div class="ach-info">
+              <h5>Phoenix Recovery</h5>
+              <p>Overcame a miss with 2 consecutive success days.</p>
+            </div>
+            <span class="ach-check">✓</span>
+          </div>
+
+          <div class="achievement-item locked">
+            <div class="ach-icon">⏱️</div>
+            <div class="ach-info">
+              <h5>50 Deep Focus Hours</h5>
+              <p>Dedicated 50 cumulative hours of tracked deep work.</p>
+            </div>
+            <span class="ach-lock">🔒</span>
+          </div>
+
+          <div class="achievement-item locked">
+            <div class="ach-icon">⚡</div>
+            <div class="ach-info">
+              <h5>30-Day Warrior</h5>
+              <p>Crossed the one-third milestone without giving up.</p>
+            </div>
+            <span class="ach-lock">🔒</span>
+          </div>
+        </div>
+
+        <div class="settings-box mt-4">
+          <div class="settings-item">
+            <span>Biometric App Lock</span>
+            <span class="badge-pill active">Enabled</span>
+          </div>
+          <div class="settings-item">
+            <span>Planned Rest Day</span>
+            <span class="badge-pill">Sunday</span>
+          </div>
+          <div class="settings-item clickable" onclick="alert('Database exported successfully as JSON dump.')">
+            <span>Export Offline Backup (JSON)</span>
+            <span class="chevron">›</span>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+      <button class="nav-item active" data-tab="tab-today">
+        <span class="nav-icon">📅</span>
+        <span class="nav-label">Today</span>
+      </button>
+      <button class="nav-item" data-tab="tab-progress">
+        <span class="nav-icon">📊</span>
+        <span class="nav-label">Progress</span>
+      </button>
+      <button class="nav-item" data-tab="tab-focus">
+        <span class="nav-icon">⏳</span>
+        <span class="nav-label">Focus</span>
+      </button>
+      <button class="nav-item" data-tab="tab-me">
+        <span class="nav-icon">👤</span>
+        <span class="nav-label">Me</span>
+      </button>
+    </nav>
+
+    <!-- Night Review Modal Sheet -->
+    <div class="modal-backdrop" id="reviewModal">
+      <div class="modal-sheet">
+        <div class="modal-handle"></div>
+        <div class="modal-header">
+          <h3>Night Review & Lock-in</h3>
+          <button class="close-btn" id="closeReviewBtn">✕</button>
+        </div>
+        <div class="modal-body">
+          <p class="modal-desc">Review your day before locking your score and streak.</p>
+          
+          <div class="slider-group">
+            <label>Mood (1-5): <strong id="moodVal">4</strong></label>
+            <input type="range" id="moodSlider" min="1" max="5" value="4">
+          </div>
+
+          <div class="slider-group">
+            <label>Energy (1-5): <strong id="energyVal">4</strong></label>
+            <input type="range" id="energySlider" min="1" max="5" value="4">
+          </div>
+
+          <div class="slider-group">
+            <label>Deep Focus (1-5): <strong id="focusVal">5</strong></label>
+            <input type="range" id="focusSlider" min="1" max="5" value="5">
+          </div>
+
+          <div class="slider-group">
+            <label>Sleep Hours (Guardrail: Min 6h): <strong id="sleepVal">7.5h</strong></label>
+            <input type="range" id="sleepSlider" min="6.0" max="11.0" step="0.5" value="7.5">
+          </div>
+
+          <div class="input-group">
+            <label>Today's Win:</label>
+            <input type="text" id="winInput" placeholder="Completed binary search problems with zero distraction">
+          </div>
+
+          <button class="btn btn-primary btn-block mt-3" id="saveReviewBtn">
+            Lock Today's Score (+10% Bonus)
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Season Recap Modal -->
+    <div class="modal-backdrop" id="recapModal">
+      <div class="modal-sheet recap-sheet">
+        <div class="modal-handle"></div>
+        <div class="modal-header">
+          <h3>Season 1 Recap</h3>
+          <button class="close-btn" id="closeRecapBtn">✕</button>
+        </div>
+        <div class="recap-card-canvas">
+          <div class="recap-watermark">ॐ TAPASYA</div>
+          <div class="recap-badge-title">30-DAY DISCIPLINE CERTIFICATE</div>
+          <div class="recap-main-stat">
+            <span class="recap-big-val">93.4%</span>
+            <span class="recap-sub-label">Consistency Rate</span>
+          </div>
+          <div class="recap-stats-list">
+            <div>🔥 <strong>12-Day</strong> Unbroken Streak</div>
+            <div>⏱️ <strong>28.5</strong> Deep Focus Hours</div>
+            <div>⚡ <strong>Level 5</strong> Ice Walker</div>
+          </div>
+          <div class="recap-footer">
+            <span>Verified Offline by Tapasya App</span>
+            <span>#Tapasya #WinterArc</span>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-block mt-3" onclick="alert('Recap card copied to clipboard as shareable snapshot!')">Share Image</button>
+      </div>
+    </div>
+
+    <!-- Floating XP Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
