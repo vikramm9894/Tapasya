@@ -43,10 +43,26 @@ jobs:
         run: dart run build_runner build --delete-conflicting-outputs
 
       - name: Build Android Debug APK
-        run: flutter build apk --debug -v
+        run: |
+          flutter build apk --debug > build_debug.log 2>&1 || {
+            echo "### Build Debug APK Failure" >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            tail -n 60 build_debug.log >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            cat build_debug.log
+            exit 1
+          }
 
       - name: Build Android Release APK
-        run: flutter build apk --release --no-shrink -v
+        run: |
+          flutter build apk --release --no-shrink > build_release.log 2>&1 || {
+            echo "### Build Release APK Failure" >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            tail -n 60 build_release.log >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            cat build_release.log
+            exit 1
+          }
 
       - name: Copy & Rename APKs
         run: |
