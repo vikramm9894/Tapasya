@@ -141,8 +141,8 @@ int dailyScore({
 | **1. Foundation** | Weeks 1–2 | Drift tables, DAOs, Habit CRUD, 4-step Onboarding flow | ✅ **COMPLETED** |
 | **2. Core Loop** | Weeks 3–4 | Top 3 priorities, Score & Streak engines, Morning/Night sheets | ✅ **COMPLETED** |
 | **3. Gamification** | Weeks 5–6 | XP/Level system, Achievements, 90-day Calendar Heatmap | ✅ **COMPLETED** |
-| **4. Focus & Alerts** | Week 7 | Pomodoro timer, Exam mode, WorkManager midnight rollover | ⏳ In Progress |
-| **5. Insights & Polish**| Week 8 | Sunday weekly review, Adaptive suggestions, Home Widgets | ⏳ Planned |
+| **4. Focus & Alerts** | Week 7 | Pomodoro timer, Exam mode, WorkManager midnight rollover | ✅ **COMPLETED** |
+| **5. Insights & Polish**| Week 8 | Sunday weekly review, Adaptive suggestions, Home Widgets | ⏳ In Progress |
 | **6. Beta & Release** | Weeks 9–10 | Unit testing (>95% engine coverage), Closed beta, Play Store | ⏳ Planned |
 
 ---
