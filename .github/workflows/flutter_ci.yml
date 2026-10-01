@@ -1,0 +1,41 @@
+name: Tapasya CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test_and_analyze:
+    name: Flutter Lint & Pure Engine Test Suite
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.22.x'
+          channel: 'stable'
+          cache: true
+
+      - name: Verify Flutter Installation
+        run: flutter doctor -v
+
+      - name: Install Project Dependencies
+        run: flutter pub get
+
+      - name: Analyze Code Quality
+        run: flutter analyze --no-fatal-infos
+
+      - name: Run Pure Domain Engine Tests
+        run: flutter test test/engines/

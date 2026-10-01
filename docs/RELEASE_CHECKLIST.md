@@ -1,10 +1,14 @@
 # Tapasya — Google Play Store Release Checklist (Phase 6)
 
-## 1. App Identity & Signing Key Setup
-- [ ] **Package Name:** `com.vikram.tapasya` (or `com.tapasya.app`)
-- [ ] **Keystore Generation:** Generate production upload keystore:
+## 1. App Identity & Native Android Setup
+- [x] **Package Name & Host Scaffold:** `com.tapasya.app` configured in `android/app/build.gradle` and `AndroidManifest.xml`.
+- [x] **Kotlin & Java 17:** Target SDK 34 (Android 14), Min SDK 24, desugaring enabled.
+- [x] **Proguard Optimization:** Rules configured in `android/app/proguard-rules.pro` for Drift SQLite, WorkManager, and Biometrics.
+- [x] **Signing Config Template:** `android/key.properties.example` ready.
+- [x] **Automated CI/CD:** `.github/workflows/flutter_ci.yml` runs analysis and all test suites on every push.
+- [ ] **Generate Production Keystore:**
   ```powershell
-  keytool -genkey -v -keystore C:\Users\vikra\tapasya_upload_key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias tapasya
+  keytool -genkey -v -keystore tapasya_upload_key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias tapasya_release_key
   ```
 - [ ] **Backup Keystore:** Store `tapasya_upload_key.jks` and credentials safely in 1Password / Google Drive.
 

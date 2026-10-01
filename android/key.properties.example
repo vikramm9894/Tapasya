@@ -1,0 +1,8 @@
+# Key properties template for signing Android release App Bundle (.aab) / APK
+# Copy this file to `android/key.properties` and fill in your real values.
+# NEVER commit the real `key.properties` or `.jks` file to GitHub!
+
+storePassword=YOUR_KEYSTORE_PASSWORD
+keyPassword=YOUR_KEY_PASSWORD
+keyAlias=tapasya_release_key
+storeFile=../tapasya-release-keystore.jks
